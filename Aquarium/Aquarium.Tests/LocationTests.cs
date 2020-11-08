@@ -33,8 +33,7 @@ namespace Aquarium.Tests
             var nyc = new Store("New York City");
             nyc.AddToInventory("Whale", newAnimal);
             // Act
-            var actual = nyc.Inventory["Whale"].Price;
-            Assert.True(actual == 150.00);
+            nyc.GetInventory();
         }
     }
 }
