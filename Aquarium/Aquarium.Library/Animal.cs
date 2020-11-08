@@ -7,29 +7,23 @@ namespace Aquarium.Library
     public class Animal
     {   
         // Constructor
-        public Animal(string name, double price, int stock)
+        public Animal(string name, int stock, double price)
         {
             _name = name;
-            _price = price;
             _stock = stock;
+            _price = price;
+
         }
         // Private fields
         private string _name;
-        private double _price;
         private int _stock;
+        private double _price;
         // Getters
         public string Name
         {
             get
             {
                 return _name;
-            }
-        }
-        public double Price
-        {
-            get
-            {
-                return _price;
             }
         }
         public int Stock
@@ -39,10 +33,17 @@ namespace Aquarium.Library
                 return _stock;
             }
         }
+        public double Price
+        {
+            get
+            {
+                return _price;
+            }
+        }
         // Methods
         public void AddAnimal(int amount)
         {
-            _stock = _stock + amount;
+            _stock += amount;
         }
         public void SellAnimal(int amount)
         {
@@ -52,7 +53,7 @@ namespace Aquarium.Library
             } 
             else 
             {
-                _stock = _stock - amount;
+                _stock -= amount;
             }
         }
     }
