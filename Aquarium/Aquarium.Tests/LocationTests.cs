@@ -22,5 +22,19 @@ namespace Aquarium.Tests
             var actual = nyc.Inventory["Whale"].Name;
             Assert.True(actual == "Whale");
         }
+        [Fact]
+        public void GetInventoryTest()
+        {
+            // Arrange
+            var name = "Whale";
+            var quantity = 10;
+            var price = 150.00;
+            var newAnimal = new Animal(name, quantity, price);
+            var nyc = new Store("New York City");
+            nyc.AddToInventory("Whale", newAnimal);
+            // Act
+            var actual = nyc.Inventory["Whale"].Price;
+            Assert.True(actual == 150.00);
+        }
     }
 }
