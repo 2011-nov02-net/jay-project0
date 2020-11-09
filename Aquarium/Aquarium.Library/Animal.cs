@@ -19,27 +19,9 @@ namespace Aquarium.Library
         private int _stock;
         private double _price;
         // Getters
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
-        public int Stock
-        {
-            get
-            {
-                return _stock;
-            }
-        }
-        public double Price
-        {
-            get
-            {
-                return _price;
-            }
-        }
+        public string Name { get; }
+        public int Stock { get; }
+        public double Price { get; }
         // Methods
         public void AddAnimal(int amount)
         {

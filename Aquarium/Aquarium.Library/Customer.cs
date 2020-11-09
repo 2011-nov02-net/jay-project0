@@ -2,7 +2,19 @@
 
 namespace Aquarium.Library
 {
-    class Customer
+    public class Customer
     {
+        public Customer(string lastName, string firstName, string email)
+        {
+            _lastName = lastName;
+            _firstName = firstName;
+            _email = email;
+        }
+        private string _lastName;
+        private string _firstName;
+        private string _email;
+        public string LastName { get; }
+        public string FirstName { get; }
+        public string Email { get; }
     }
 }

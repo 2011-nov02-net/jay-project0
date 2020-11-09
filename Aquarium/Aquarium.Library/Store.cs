@@ -15,20 +15,8 @@ namespace Aquarium.Library
         private string _location;
         private Dictionary<string, Animal> _inventory;
         // Getters
-        public string Location
-        {
-            get
-            {
-                return _location;
-            }
-        }
-        public Dictionary<string, Animal> Inventory
-        {
-            get
-            {
-                return _inventory;
-            }
-        }
+        public string Location { get; }
+        public Dictionary<string, Animal> Inventory { get; }
         // Methods
         public void GetInventory()
         {
