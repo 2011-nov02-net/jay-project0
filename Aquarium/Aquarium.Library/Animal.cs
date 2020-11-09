@@ -9,33 +9,30 @@ namespace Aquarium.Library
         // Constructor
         public Animal(string name, int stock, double price)
         {
-            _name = name;
-            _stock = stock;
+            Name = name;
+            Stock = stock;
             _price = price;
 
         }
         // Private fields
-        private string _name;
-        private int _stock;
         private double _price;
         // Getters
         public string Name { get; }
-        public int Stock { get; }
-        public double Price { get; }
+        public int Stock { get; private set; }
         // Methods
         public void AddAnimal(int amount)
         {
-            _stock += amount;
+            Stock += amount;
         }
         public void SellAnimal(int amount)
         {
-            if (amount > _stock) 
+            if (amount > Stock) 
             {
-                Console.Write($"Not enough {_name} in stock!");
+                Console.Write($"Not enough {Name} in stock!");
             } 
             else 
             {
-                _stock -= amount;
+                Stock -= amount;
             }
         }
     }

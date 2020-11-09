@@ -13,8 +13,5 @@ namespace Aquarium.Library
         private string _lastName;
         private string _firstName;
         private string _email;
-        public string LastName { get; }
-        public string FirstName { get; }
-        public string Email { get; }
     }
 }
