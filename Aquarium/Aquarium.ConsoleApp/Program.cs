@@ -10,6 +10,7 @@ namespace Aquarium.ConsoleApp
             // Console inputs to see flow of application, will remove later
             // New store location created with animals
             var nyc = new Store("nyc");
+
             var whale = new Animal("whale", 1500.00m);
             var penguin = new Animal("penguin", 60.00m);
             nyc.AddToInventory("whale", 100);

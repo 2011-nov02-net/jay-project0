@@ -7,18 +7,21 @@ namespace Aquarium.Library
     {
         // Constructor
         public Store(string location)
-        {
-            _location = location;
-            _inventory = new Dictionary<string, int>();
+        {   
+            Location = location;
+            Inventory = new Dictionary<string, int>();
+            // Finds filepath, then creates new serialize object to serialize this store object to json
+            string storePath = @"../Aquarium.Data/store.json";
+            var jsonSerial = new JsonSerial(storePath);
+            jsonSerial.WriteJson(this);
         }
-        // Private fields
-        private string _location;
-        private Dictionary<string, int> _inventory;
+        public string Location { get; }
+        public Dictionary<string, int> Inventory { get; private set; }
         // Methods
         public List<string> GetInventory()
         {
             var result = new List<string>();
-            foreach (KeyValuePair<string, int> animal in _inventory)
+            foreach (KeyValuePair<string, int> animal in Inventory)
             {
                 result.Add($"{animal.Key} - {animal.Value}");
             }
@@ -27,24 +30,24 @@ namespace Aquarium.Library
         }
         public void AddToInventory(string name, int stock)
         {
-            if (_inventory.ContainsKey(name))
+            if (Inventory.ContainsKey(name))
             {
-                _inventory[name] += stock;
+                Inventory[name] += stock;
             }
             else
             {
-                _inventory.Add(name, stock);
+                Inventory.Add(name, stock);
             }
         }
         public void RemoveFromInventory(string name, int stock)
         { 
-             _inventory[name] -= stock;
+             Inventory[name] -= stock;
         }
         public string SearchInventory(string animalName)
         {
-            if (_inventory.ContainsKey(animalName))
+            if (Inventory.ContainsKey(animalName))
             {
-                var animalQuantity = _inventory[animalName];
+                var animalQuantity = Inventory[animalName];
                 return $"There are {animalQuantity} {animalName}(s) in stock.";
             }
             else

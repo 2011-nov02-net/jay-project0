@@ -27,7 +27,7 @@ namespace Aquarium.Library
             }
             return result;
         }
-        public decimal CheckoutCart()
+        public string CheckoutCart()
         {
             decimal CartTotal = 0.00m;
             foreach (KeyValuePair<Animal, int> animal in _cart)
@@ -35,7 +35,7 @@ namespace Aquarium.Library
                 _location.RemoveFromInventory(animal.Key.Name, animal.Value); // Removes the number of animals in the store. Need to add availability check
                 CartTotal += animal.Key.Price * animal.Value;
             }
-            return CartTotal;
+            return ($"Your total is ${CartTotal}.");
         }
         public void AddToCart(Animal animal, int quantity)
         {
@@ -60,6 +60,10 @@ namespace Aquarium.Library
                 _totalPrice -= animal.Price * quantity;
 
             }
+        }
+        public void SearchByLocation(Store location)
+        {
+
         }
     }
 }
