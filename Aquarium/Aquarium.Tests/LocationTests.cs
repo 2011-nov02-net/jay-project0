@@ -14,10 +14,10 @@ namespace Aquarium.Tests
             var name = "Whale";
             var quantity = 10;
             var price = 150.00;
-            var newAnimal = new Animal(name, quantity, price);
+            var newAnimal = new Animal(name, price);
             var nyc = new Store("New York City");
             // Act
-            nyc.AddToInventory(name, newAnimal);
+            nyc.AddToInventory(name, quantity);
             // Assert
             var actual = nyc.SearchInventory("Whale");
             Assert.True(actual == "There are 10 Whale(s) in stock.");
@@ -29,13 +29,13 @@ namespace Aquarium.Tests
             var name = "Penguin";
             var quantity = 50;
             var price = 100.00;
-            var newAnimal = new Animal(name, quantity, price);
+            var newAnimal = new Animal(name, price);
             var nyc = new Store("New York City");
-            nyc.AddToInventory("Penguin", newAnimal);
+            nyc.AddToInventory("Penguin", quantity);
             // Act
             var actual = nyc.GetInventory();
             // Assert
-            Assert.True(actual[0] == "Penguin") ;
+            Assert.True(actual[0] == "Penguin - 50") ;
         }
     }
 }

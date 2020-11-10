@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Aquarium.Library
 {
@@ -9,9 +10,11 @@ namespace Aquarium.Library
             _lastName = lastName;
             _firstName = firstName;
             _email = email;
+            _order = new Dictionary<int, Order>();
         }
         private string _lastName;
         private string _firstName;
         private string _email;
+        private Dictionary<int, Order> _order;
     }
 }
