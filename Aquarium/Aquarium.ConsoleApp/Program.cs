@@ -10,12 +10,12 @@ namespace Aquarium.ConsoleApp
             // Console inputs to see flow of application, will remove later
             // New store location created with animals
             var nyc = new Store("nyc");
-            var whale = new Animal("whale", 1500.00);
-            var penguin = new Animal("penguin", 60.00);
+            var whale = new Animal("whale", 1500.00m);
+            var penguin = new Animal("penguin", 60.00m);
             nyc.AddToInventory("whale", 100);
             nyc.AddToInventory("penguin", 500);
 
-            var Jay = new Customer("S", "Jay", "jay@email.com");
+            var Jay = new Customer("Shin", "Jay", "jay@email.com");
 
             Console.WriteLine($"Type {"e"} if you are an employee or {"c"} if you are a customer.");
             string userLogin = Console.ReadLine();
@@ -23,8 +23,11 @@ namespace Aquarium.ConsoleApp
             if (userLogin == "e")
             {
                 var result = nyc.GetInventory();
-                Console.Write(result[0]); // returns penguin name property "penguin"
+                // Console.Write(result[0]); // returns penguin name property "penguin"
                 nyc.AddToInventory("penguin", 100); // Adds 10 penguins to the penguin.Stock property
+                var newOrder = new Order(nyc, Jay, whale, 10);
+                newOrder.AddToCart(penguin, 19);
+                Console.Write(newOrder.CheckoutCart());
             }
             // Customer portal
             else if (userLogin == "c")

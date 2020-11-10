@@ -13,7 +13,7 @@ namespace Aquarium.Tests
             // Arrange
             var name = "Whale";
             var quantity = 10;
-            var price = 150.00;
+            var price = 150.00m;
             var newAnimal = new Animal(name, price);
             var nyc = new Store("New York City");
             // Act
@@ -28,7 +28,7 @@ namespace Aquarium.Tests
             // Arrange
             var name = "Penguin";
             var quantity = 50;
-            var price = 100.00;
+            var price = 100.00m;
             var newAnimal = new Animal(name, price);
             var nyc = new Store("New York City");
             nyc.AddToInventory("Penguin", quantity);

@@ -7,14 +7,14 @@ namespace Aquarium.Library
     public class Animal
     {   
         // Constructor
-        public Animal(string name, double price)
+        public Animal(string name, decimal price)
         {
             Name = name;
-            _price = price;
+            Price = price;
 
         }
         // Private fields
-        private double _price;
+        public decimal Price { get; private set; }
         // Getters
         public string Name { get; }
         // Methods

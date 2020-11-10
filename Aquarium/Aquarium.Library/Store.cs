@@ -15,6 +15,16 @@ namespace Aquarium.Library
         private string _location;
         private Dictionary<string, int> _inventory;
         // Methods
+        public List<string> GetInventory()
+        {
+            var result = new List<string>();
+            foreach (KeyValuePair<string, int> animal in _inventory)
+            {
+                result.Add($"{animal.Key} - {animal.Value}");
+            }
+            return result;
+
+        }
         public void AddToInventory(string name, int stock)
         {
             if (_inventory.ContainsKey(name))
@@ -29,16 +39,6 @@ namespace Aquarium.Library
         public void RemoveFromInventory(string name, int stock)
         { 
              _inventory[name] -= stock;
-        }
-        public List<string> GetInventory()
-        {
-             var result = new List<string>();
-             foreach (KeyValuePair<string, int> animal in _inventory)
-             {
-                result.Add($"{animal.Key} - {animal.Value}");
-             }
-             return result;
- 
         }
         public string SearchInventory(string animalName)
         {
