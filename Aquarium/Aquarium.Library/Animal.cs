@@ -13,7 +13,7 @@ namespace Aquarium.Library
             Price = price;
 
         }
-        // Private fields
+        public int AnimalId { get; private set; }
         public decimal Price { get; private set; }
         // Getters
         public string Name { get; }

@@ -7,14 +7,13 @@ namespace Aquarium.Library
     {
         public Customer(string lastName, string firstName, string email)
         {
-            _lastName = lastName;
-            _firstName = firstName;
-            _email = email;
-            _order = new Dictionary<int, Order>();
+            LastName = lastName;
+            FirstName = firstName;
+            EmailAddress = email;
         }
-        private string _lastName;
-        private string _firstName;
-        private string _email;
-        private Dictionary<int, Order> _order;
+        public int CustomerId { get; private set; }
+        public string LastName { get; private set; }
+        public string FirstName { get; private set; }
+        public string EmailAddress { get; private set; }
     }
 }

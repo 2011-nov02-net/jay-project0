@@ -8,13 +8,14 @@ namespace Aquarium.ConsoleApp
         static void Main(string[] args)
         {
             // Console inputs to see flow of application, will remove later
-            // New store location created with animals
+            // New store object created
             var nyc = new Store("nyc");
-
+            // New animal objects created
             var whale = new Animal("whale", 1500.00m);
             var penguin = new Animal("penguin", 60.00m);
             nyc.AddToInventory("whale", 100);
             nyc.AddToInventory("penguin", 500);
+            nyc.AddToInventory("penguin", 333330);
 
             var Jay = new Customer("Shin", "Jay", "jay@email.com");
 
