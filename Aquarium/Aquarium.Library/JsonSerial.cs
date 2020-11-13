@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 
 namespace Aquarium.Library
 {
+    // Not used since we are storing data in SQL. Will keep here for potential future use
     public class JsonSerial
     {
         public JsonSerial(string filePath)

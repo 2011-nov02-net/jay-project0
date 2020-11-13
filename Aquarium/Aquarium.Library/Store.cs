@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.IO;
+// using Newtonsoft.Json;
+// using System.IO;
 
 namespace Aquarium.Library
 {
@@ -17,7 +17,7 @@ namespace Aquarium.Library
             // jsonSerial.WriteJson(this);
         }
         private string StoreId { get; }
-        private string _storePath = @"../Aquarium.Data/store.json"; // Temporary until I figure out proper format
+        // private string _storePath = @"../Aquarium.Data/store.json";
         public string Location { get; }
         public Dictionary<string, int> Inventory { get; private set; }
         // Methods
