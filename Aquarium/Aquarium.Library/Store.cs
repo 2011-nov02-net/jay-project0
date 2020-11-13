@@ -13,9 +13,10 @@ namespace Aquarium.Library
             Location = location;
             Inventory = new Dictionary<string, int>();
             // Finds filepath, then creates new serialize object to serialize this store object to json
-            var jsonSerial = new JsonSerial(_storePath);
-            jsonSerial.WriteJson(this);
+            // var jsonSerial = new JsonSerial(_storePath);
+            // jsonSerial.WriteJson(this);
         }
+        private string StoreId { get; }
         private string _storePath = @"../Aquarium.Data/store.json"; // Temporary until I figure out proper format
         public string Location { get; }
         public Dictionary<string, int> Inventory { get; private set; }
@@ -39,8 +40,8 @@ namespace Aquarium.Library
             {
                 Inventory.Add(name, stock);
             }
-            var jsonSerial = new JsonSerial(_storePath);
-            jsonSerial.WriteJson(this);
+            // var jsonSerial = new JsonSerial(_storePath);
+            // jsonSerial.WriteJson(this);
         }
         public void RemoveFromInventory(string name, int stock)
         { 

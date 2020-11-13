@@ -11,12 +11,9 @@ namespace Aquarium.Library
         {
             Name = name;
             Price = price;
-
         }
-        public int AnimalId { get; private set; }
+        public int AnimalId { get; private set; } // For SQL
         public decimal Price { get; private set; }
-        // Getters
         public string Name { get; }
-        // Methods
     }
 }

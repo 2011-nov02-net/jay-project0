@@ -14,6 +14,7 @@ namespace Aquarium.Library
             _totalPrice = animal.Price * quantity;
 
         }
+        private int OrderId;
         private Store _location;
         private Customer _customer;
         private decimal _totalPrice;
@@ -23,7 +24,7 @@ namespace Aquarium.Library
             var result = new List<string>();
             foreach (KeyValuePair<Animal, int> animal in _cart)
             {
-                result.Add($"{animal.Key.Name} - {animal.Value} - {animal.Key.Price * animal.Value}"); // Returns several strings but will change to true list format later
+                result.Add($"{animal.Key.Name} - {animal.Value} - {animal.Key.Price * animal.Value}"); // Change this to pull data from SQL database
             }
             return result;
         }
@@ -60,10 +61,6 @@ namespace Aquarium.Library
                 _totalPrice -= animal.Price * quantity;
 
             }
-        }
-        public void SearchByLocation(Store location)
-        {
-
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Aquarium.Library
             FirstName = firstName;
             EmailAddress = email;
         }
-        public int CustomerId { get; private set; }
+        private int CustomerId; // For SQL
         public string LastName { get; private set; }
         public string FirstName { get; private set; }
         public string EmailAddress { get; private set; }
