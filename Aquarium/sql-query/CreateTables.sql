@@ -18,8 +18,8 @@ go
 
 create table Aquarium.Store (
 	StoreId int not null primary key identity(1, 1),
-	InventoryId int not null
-		foreign key references Aquarium.Inventory(InventoryId) on delete cascade on update cascade
+	City nvarChar(30) not null,
+	Country nvarChar(30) not null
 );
 go
 
