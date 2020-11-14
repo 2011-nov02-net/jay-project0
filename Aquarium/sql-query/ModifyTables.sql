@@ -3,6 +3,9 @@ alter table Aquarium.Inventory
 		constraint FK_Inventory_StoreId foreign key references Aquarium.Store(StoreId) on delete cascade on update cascade;
 go
 
+alter table Aquarium.Orders 
+	add constraint Date default getdate() for Date;
+
 alter table Aquarium.Orders
 	add AnimalId int not null
 		constraint FK_Orders_AnimalId foreign key references Aquarium.Animal(AnimalId) on delete cascade on update cascade;
@@ -75,3 +78,12 @@ insert into Aquarium.Inventory (AnimalId, Quantity, StoreId)
 		(select StoreId from Aquarium.Store where City = 'Seoul')
 	);
 go
+
+insert into Aquarium.Orders (StoreId, CustomerId, Quantity, Total, AnimalId)
+	values (
+		(select StoreId from Aquarium.Store where City = 'Nyc'),
+		(select CustomerId from Aquarium.Customer where FirstName = 'Mona'),
+		5,
+		5000.00,
+		(select AnimalId from Aquarium.Animal where Name = 'Whale')
+	);
