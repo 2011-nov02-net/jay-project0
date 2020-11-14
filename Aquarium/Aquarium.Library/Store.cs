@@ -8,28 +8,11 @@ namespace Aquarium.Library
     public class Store
     {
         // Constructor
-        public Store(string location)
-        {   
-            Location = location;
-            Inventory = new Dictionary<string, int>();
-            // Finds filepath, then creates new serialize object to serialize this store object to json
-            // var jsonSerial = new JsonSerial(_storePath);
-            // jsonSerial.WriteJson(this);
-        }
-        private string StoreId { get; }
-        // private string _storePath = @"../Aquarium.Data/store.json";
-        public string Location { get; }
-        public Dictionary<string, int> Inventory { get; private set; }
+        public int StoreId { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public Dictionary<string, int> Inventory { get; set; }
         // Methods
-        public List<string> GetInventory()
-        {
-            var result = new List<string>();
-            foreach (KeyValuePair<string, int> animal in Inventory)
-            {
-                result.Add($"{animal.Key} - {animal.Value}");
-            }
-            return result;
-        }
         public void AddToInventory(string name, int stock)
         {
             if (Inventory.ContainsKey(name))
@@ -40,12 +23,13 @@ namespace Aquarium.Library
             {
                 Inventory.Add(name, stock);
             }
-            // var jsonSerial = new JsonSerial(_storePath);
-            // jsonSerial.WriteJson(this);
         }
         public void RemoveFromInventory(string name, int stock)
-        { 
-             Inventory[name] -= stock;
+        {
+            if (stock > Inventory[name]) {
+                Console.WriteLine($"Not enough {name} in stock.");
+            }
+            Inventory[name] -= stock;
         }
         public string SearchInventory(string animalName)
         {

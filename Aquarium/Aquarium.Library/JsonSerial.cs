@@ -15,11 +15,9 @@ namespace Aquarium.Library
         private string _filePath;
         public void ReadJson()
         {
-            using (StreamReader writer = new StreamReader(_filePath))
-            {
-                string json = writer.ReadToEnd();
-                List<object> items = JsonConvert.DeserializeObject<List<object>>(json);
-            }
+            using StreamReader writer = new StreamReader(_filePath);
+            string json = writer.ReadToEnd();
+            List<object> items = JsonConvert.DeserializeObject<List<object>>(json);
         }
         public void WriteJson(object data)
         {

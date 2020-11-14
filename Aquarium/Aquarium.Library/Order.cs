@@ -5,19 +5,9 @@ namespace Aquarium.Library
 {
     public class Order
     {
-        public Order(Store location, Customer customer, Animal animal, int quantity)
-        {
-            _location = location;
-            _customer = customer;
-            _cart = new Dictionary<Animal, int>();
-            _cart.Add(animal, quantity);
-            _totalPrice = animal.Price * quantity;
-
-        }
-        private int OrderId;
-        private Store _location;
-        private Customer _customer;
-        private decimal _totalPrice;
+        public Store _location;
+        public Customer _customer;
+        public decimal _totalPrice;
         public Dictionary<Animal, int> _cart { get; private set; }
         public List<string> GetCart()
         {

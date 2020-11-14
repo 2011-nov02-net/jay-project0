@@ -14,5 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+	  
+	<ProjectReference Include="..\Aquarium.Library\Aquarium.Library.csproj" />
   </ItemGroup>
 </Project>

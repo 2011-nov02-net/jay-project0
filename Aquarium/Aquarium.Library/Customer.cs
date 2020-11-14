@@ -9,11 +9,10 @@ namespace Aquarium.Library
         {
             LastName = lastName;
             FirstName = firstName;
-            EmailAddress = email;
+            Email = email;
         }
-        private int CustomerId; // For SQL
         public string LastName { get; private set; }
         public string FirstName { get; private set; }
-        public string EmailAddress { get; private set; }
+        public string Email { get; private set; }
     }
 }

@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aquarium.Library", "Aquarium.Library\Aquarium.Library.csproj", "{B3BD08CA-AB5E-4AD9-B88B-7B5D6E2EC3AE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B409B130-BD18-45E4-BF8D-3250AC097A9C} = {B409B130-BD18-45E4-BF8D-3250AC097A9C}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aquarium.Tests", "Aquarium.Tests\Aquarium.Tests.csproj", "{291F62DF-50FA-49F3-B01F-B0EDC70982EA}"
 EndProject
