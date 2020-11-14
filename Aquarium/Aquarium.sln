@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aquarium.Tests", "Aquarium.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aquarium.ConsoleApp", "Aquarium.ConsoleApp\Aquarium.ConsoleApp.csproj", "{F0C5F9FB-88B7-4EF9-89CD-EADF90B636BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aquarium.DataModel", "Aquarium.DataModel\Aquarium.DataModel.csproj", "{B409B130-BD18-45E4-BF8D-3250AC097A9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aquarium.DataModel", "Aquarium.DataModel\Aquarium.DataModel.csproj", "{B409B130-BD18-45E4-BF8D-3250AC097A9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

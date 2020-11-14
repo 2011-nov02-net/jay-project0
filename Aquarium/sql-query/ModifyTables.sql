@@ -3,10 +3,8 @@ alter table Aquarium.Inventory
 		constraint FK_Inventory_StoreId foreign key references Aquarium.Store(StoreId) on delete cascade on update cascade;
 go
 
-alter table Aquarium.Orders 
-	add constraint Date default getdate() for Date;
-
 alter table Aquarium.Orders
+	add constraint Date default getdate() for Date
 	add AnimalId int not null
 		constraint FK_Orders_AnimalId foreign key references Aquarium.Animal(AnimalId) on delete cascade on update cascade;
 go
