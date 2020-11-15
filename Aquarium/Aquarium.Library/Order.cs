@@ -5,10 +5,12 @@ namespace Aquarium.Library
 {
     public class Order
     {
-        public Store _location;
-        public Customer _customer;
-        public decimal _totalPrice;
-        public Dictionary<Animal, int> _cart { get; private set; }
+        public int StoreId { get; set; }
+        public int CustomerId { get; set; }
+        public int AnimalId { get; set; }
+        public int Quantity { get; set;}
+        public decimal Total { get; set; }
+        public DateTime Date { get; set; }
         public List<string> GetCart()
         {
             var result = new List<string>();
@@ -23,7 +25,7 @@ namespace Aquarium.Library
             decimal CartTotal = 0.00m;
             foreach (KeyValuePair<Animal, int> animal in _cart)
             {
-                _location.RemoveFromInventory(animal.Key.Name, animal.Value); // Removes the number of animals in the store. Need to add availability check
+                Location.RemoveFromInventory(animal.Key.Name, animal.Value); // Removes the number of animals in the store. Need to add availability check
                 CartTotal += animal.Key.Price * animal.Value;
             }
             return ($"Your total is ${CartTotal}.");
@@ -33,13 +35,13 @@ namespace Aquarium.Library
             bool checkForExisting = _cart.ContainsKey(animal);
             if (checkForExisting)
             {
-                _cart[animal] += quantity;
-                _totalPrice += animal.Price * quantity;
+                Cart[animal] += quantity;
+                TotalPrice += animal.Price * quantity;
             }
             else 
             {
-                _cart.Add(animal, quantity);
-                _totalPrice += animal.Price * quantity;
+                Cart.Add(animal, quantity);
+                TotalPrice += animal.Price * quantity;
             }
         }
         public void RemoveFromCart(Animal animal, int quantity)
@@ -47,8 +49,8 @@ namespace Aquarium.Library
             bool checkForExisting = _cart.ContainsKey(animal);
             if (checkForExisting)
             {
-                _cart[animal] -= quantity;
-                _totalPrice -= animal.Price * quantity;
+                Cart[animal] -= quantity;
+                TotalPrice -= animal.Price * quantity;
 
             }
         }

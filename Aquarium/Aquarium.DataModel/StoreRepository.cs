@@ -49,7 +49,7 @@ namespace Aquarium.DataModel
             }
             return appInventory;
         }
-        public void AddToInventory(string city, string name, int stock)
+        public void AddToInventoryDb(string city, string name, int stock)
         {
             using var context = new AquariumContext(_contextOptions);
             // Checks to see if animal exists in database already
@@ -88,6 +88,106 @@ namespace Aquarium.DataModel
                     context.Inventories.Add(newEntry);
                 };
             }
+            context.SaveChanges();
+        }
+        // Meant to be used to subtract the quantity of the animal from a processed order
+        // Not using Library.order object directly since I want the option to remove from inventory even without a new order subtraction
+        public void RemoveFromInventoryDb(int storeid, int animalid, int quantity)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbInventory = context.Inventories
+                .Where(i => i.StoreId == storeid)
+                .Where(i => i.AnimalId == animalid)
+                .First();
+            dbInventory.Quantity -= quantity;
+            context.SaveChanges();
+        }
+        public void CreateCustomer(Library.Customer customer)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var newCust = new DataModel.Customer()
+            {
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Email = customer.Email
+            };
+            context.Customers.Add(newCust);
+            context.SaveChanges();
+        }
+        public Library.Customer GetCustomerByName(string lastname, string firstname)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbCust = context.Customers
+                .Where(c => c.LastName == lastname && c.FirstName == firstname)
+                .First();
+            var appCust = new Library.Customer()
+            {
+                CustomerId = dbCust.CustomerId,
+                LastName = dbCust.LastName,
+                FirstName = dbCust.FirstName,
+                Email = dbCust.Email
+            };
+            return appCust;
+        }
+        // Get orders from the database
+        public IEnumerable<Library.Order> GetCustOrders(Library.Customer customer)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbOrders = context.Orders
+                .Where(o => o.CustomerId == customer.CustomerId);
+            var orders = new List<Library.Order>();
+            foreach (var obj in dbOrders)
+            {
+                orders.Add(ConvertOrdersById(obj));
+            }
+            return orders;
+        }
+        public IEnumerable<Library.Order> GetStoreOrders(Library.Store store)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbOrders = context.Orders
+                .Where(o => o.StoreId == store.StoreId);
+            var orders = new List<Library.Order>();
+            foreach (var obj in dbOrders)
+            {
+                orders.Add(ConvertOrdersById(obj));
+            }
+            return orders;
+        }
+        // Conversion from DataModel.order to Library.Order
+        public Library.Order ConvertOrdersById (DataModel.Order order)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbOrders = context.Orders
+                .Where(o => o.OrderId == order.OrderId)
+                .Include(o => o.Store)
+                .Include(o => o.Customer)
+                .Include(o => o.Animal)
+                .First();
+            var newOrder = new Library.Order
+            {
+                StoreId = dbOrders.StoreId,
+                CustomerId = dbOrders.CustomerId,
+                AnimalId = dbOrders.AnimalId,
+                Quantity = dbOrders.Quantity,
+                Total = dbOrders.Total,
+                Date = dbOrders.Date
+            };
+            return newOrder;
+        }
+        public void AddToOrderDb(Library.Order order)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var newEntry = new DataModel.Order
+            {
+                StoreId = order.StoreId,
+                CustomerId = order.CustomerId,
+                AnimalId = order.AnimalId,
+                Quantity = order.Quantity,
+                Total = order.Total,
+                Date = order.Date
+            };
+            context.Orders.Add(newEntry);
             context.SaveChanges();
         }
     }
