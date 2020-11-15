@@ -49,10 +49,10 @@ namespace Aquarium.DataModel
             }
             return appInventory;
         }
-        public void AddToInventoryDb(string city, string name, int stock)
+        public void UpdateInventoryDb(string city, string name, int stock)
         {
             using var context = new AquariumContext(_contextOptions);
-            // Checks to see if animal exists in database already
+            // Checks to see if animal exists in database already, move this login to business?
             bool animalExist = context.Animals
                 .Any(a => a.Name == name);
             if(!animalExist)
@@ -62,32 +62,26 @@ namespace Aquarium.DataModel
             else
             {
                 var currentStore = GetStoreByCity(city);
-                currentStore.AddToInventory(name, stock);
-                // Checks to see if animal exists in current store inventory, and if it does update it
-                bool inventoryExist = context.Inventories
+                var dbInventory = context.Inventories
                     .Include(i => i.Animal)
-                    .Any(i => i.StoreId == currentStore.StoreId && i.Animal.Name == name);
-                if (inventoryExist) {
-                    var dbInventory = context.Inventories
-                        .Include(i => i.Animal)
-                        .Where(i => i.StoreId == currentStore.StoreId && i.Animal.Name == name)
-                        .First();
-                    dbInventory.Quantity += stock;
-                }
-                else
-                {
-                    // Since it does not exist we create a new entry in the inventory instead of updating an existing one
-                    var dbAnimal = context.Animals
-                        .Where(a => a.Name == name).First();
-                    var newEntry = new DataModel.Inventory()
-                    {
-                        StoreId = currentStore.StoreId,
-                        AnimalId = dbAnimal.AnimalId,
-                        Quantity = stock
-                    };
-                    context.Inventories.Add(newEntry);
-                };
+                    .Where(i => i.StoreId == currentStore.StoreId && i.Animal.Name == name)
+                    .First();
+                dbInventory.Quantity += stock;
+                context.SaveChanges();
             }
+        }
+        public void AddToInventoryDb(string city, string name, int stock)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var currentStore = GetStoreByCity(city);
+            var currentAnimal = GetAnimalByName(name);
+            var newEntry = new DataModel.Inventory()
+            {
+                StoreId = currentStore.StoreId,
+                AnimalId = currentAnimal.AnimalId,
+                Quantity = stock
+            };
+            context.Inventories.Add(newEntry);
             context.SaveChanges();
         }
         // Meant to be used to subtract the quantity of the animal from a processed order
@@ -102,7 +96,7 @@ namespace Aquarium.DataModel
             dbInventory.Quantity -= quantity;
             context.SaveChanges();
         }
-        public void CreateCustomer(Library.Customer customer)
+        public void AddToCustomerDb(Library.Customer customer)
         {
             using var context = new AquariumContext(_contextOptions);
             var newCust = new DataModel.Customer()
@@ -138,7 +132,7 @@ namespace Aquarium.DataModel
             var orders = new List<Library.Order>();
             foreach (var obj in dbOrders)
             {
-                orders.Add(ConvertOrdersById(obj));
+                orders.Add(GetOrderById(obj));
             }
             return orders;
         }
@@ -150,12 +144,12 @@ namespace Aquarium.DataModel
             var orders = new List<Library.Order>();
             foreach (var obj in dbOrders)
             {
-                orders.Add(ConvertOrdersById(obj));
+                orders.Add(GetOrderById(obj));
             }
             return orders;
         }
         // Conversion from DataModel.order to Library.Order
-        public Library.Order ConvertOrdersById (DataModel.Order order)
+        public Library.Order GetOrderById (DataModel.Order order)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbOrders = context.Orders
@@ -189,6 +183,30 @@ namespace Aquarium.DataModel
             };
             context.Orders.Add(newEntry);
             context.SaveChanges();
+        }
+        public void AddToAnimalDb(Library.Animal animal) {
+            using var context = new AquariumContext(_contextOptions);
+            var newEntry = new DataModel.Animal
+            {
+                Name = animal.Name,
+                Price = animal.Price
+            };
+            context.Animals.Add(newEntry);
+            context.SaveChanges();
+        }
+        public Library.Animal GetAnimalByName(string name)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbAnimal = context.Animals
+                .Where(a => a.Name == name)
+                .First();
+            var newAnimal = new Library.Animal()
+            {
+                AnimalId = dbAnimal.AnimalId,
+                Name = dbAnimal.Name,
+                Price = dbAnimal.Price
+            };
+            return newAnimal;
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-// using Newtonsoft.Json;
-// using System.IO;
 
 namespace Aquarium.Library
 {
@@ -12,7 +10,6 @@ namespace Aquarium.Library
         public string City { get; set; }
         public string Country { get; set; }
         public Dictionary<string, int> Inventory { get; set; }
-        // Methods
         public void AddToInventory(string name, int stock)
         {
             if (Inventory.ContainsKey(name))
