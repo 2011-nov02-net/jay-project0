@@ -8,19 +8,19 @@ namespace Aquarium.DataModel
     {
         Library.Store GetStoreByCity(string location);
         Dictionary<string, int> GetStoreInventory(Library.Store store);
-        public void UpdateInventoryDb(string city, string name, int stock);
-        public void AddToInventoryDb(string city, string name, int stock);
-        public void RemoveFromInventoryDb(int storeid, int animalid, int quantity);
-        public void AddToCustomerDb(Library.Customer customer);
-        public void UpdateCustomerDb(Library.Customer customer);
-        public Library.Customer GetCustomerByName(string lastname, string firstname);
-        public IEnumerable<Library.Order> GetCustOrders(Library.Customer customer);
-        public IEnumerable<Library.Order> GetStoreOrders(Library.Store store);
-        public Library.Order GetOrderById(int id);
-        public void UpdateOrderDb(Library.Order order);
-        public void AddToOrderDb(Library.Order order);
-        public void AddToAnimalDb(Library.Animal animal);
-        public Library.Animal GetAnimalByName(string name);
-        public void UpdateAnimalDb(Library.Animal animal);
+        void UpdateInventoryDb(string city, string name, int stock);
+        void AddToInventoryDb(string city, string name, int stock);
+        void RemoveFromInventoryDb(int storeid, int animalid, int quantity);
+        void AddToCustomerDb(Library.Customer customer);
+        void UpdateCustomerDb(Library.Customer customer);
+        Library.Customer GetCustomerByName(string lastname, string firstname);
+        IEnumerable<Library.Order> GetCustOrders(Library.Customer customer);
+        IEnumerable<Library.Order> GetStoreOrders(Library.Store store);
+        Library.Order GetOrderById(int id);
+        void UpdateOrderDb(Library.Order order);
+        void AddToOrderDb(Library.Order order);
+        void AddToAnimalDb(Library.Animal animal);
+        Library.Animal GetAnimalByName(string name);
+        void UpdateAnimalDb(Library.Animal animal);
     }
 }

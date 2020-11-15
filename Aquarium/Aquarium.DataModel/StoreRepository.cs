@@ -142,7 +142,7 @@ namespace Aquarium.DataModel
             var orders = new List<Library.Order>();
             foreach (var obj in dbOrders)
             {
-                orders.Add(GetOrderById(obj));
+                orders.Add(GetOrderById(obj.OrderId));
             }
             return orders;
         }
@@ -224,7 +224,7 @@ namespace Aquarium.DataModel
             using var context = new AquariumContext(_contextOptions);
             var dbAnimal = context.Animals
                 .Where(a => a.Name == name)
-                .First();
+                .FirstOrDefault();
             var newAnimal = new Library.Animal()
             {
                 AnimalId = dbAnimal.AnimalId,

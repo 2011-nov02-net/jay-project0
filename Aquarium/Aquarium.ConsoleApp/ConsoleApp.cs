@@ -10,23 +10,23 @@ namespace Aquarium.ConsoleApp
 {
     public class ConsoleApp
     {
+        public StoreRepository StoreRepo { get; set; }
         public ConsoleApp()
         {
-            using var logStream = new StreamWriter("ef-logs.txt");
+            // using var logStream = new StreamWriter("ef-logs.txt");
             var connect = System.IO.File.ReadAllText("connection.txt");
 
             var optionsBuilder = new DbContextOptionsBuilder<AquariumContext>();
             optionsBuilder.UseSqlServer(connect);
-            optionsBuilder.LogTo(logStream.Write, LogLevel.Information);
+            // optionsBuilder.LogTo(logStream.Write, LogLevel.Information);
             var s_dbContextOptions = optionsBuilder.Options;
 
-            IStoreRepository StoreRepo = new StoreRepository(s_dbContextOptions);
+            StoreRepo = new StoreRepository(s_dbContextOptions);
         }
-        public IStoreRepository StoreRepo { get; set; }
         // Read
-        public void GetStore(string city)
+        public Library.Store GetStore(string city)
         {
-            StoreRepo.GetStoreByCity(city);
+            return StoreRepo.GetStoreByCity(city);
         }
         public void GetStoreOrders(Library.Store store)
         {
@@ -46,6 +46,7 @@ namespace Aquarium.ConsoleApp
         }
         public void GetAnimalByName(string name)
         {
+            Console.WriteLine("test");
             StoreRepo.GetAnimalByName(name);
         }
         // Create
