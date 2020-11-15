@@ -23,6 +23,7 @@ namespace Aquarium.ConsoleApp
             // Console inputs
             var StoreRepo = new StoreRepository(s_dbContextOptions);
             var result = StoreRepo.GetStoreByCity("Nyc");
+            StoreRepo.AddToInventory("Nyc", "Penguin", 1);
         }
     }
 }
