@@ -20,9 +20,9 @@ namespace Aquarium.ConsoleApp
             optionsBuilder.LogTo(logStream.Write, LogLevel.Information);
             var s_dbContextOptions = optionsBuilder.Options;
 
-            var StoreRepo = new StoreRepository(s_dbContextOptions);
+            IStoreRepository StoreRepo = new StoreRepository(s_dbContextOptions);
         }
-        public StoreRepository StoreRepo { get; set; }
+        public IStoreRepository StoreRepo { get; set; }
         // Read
         public void GetStore(string city)
         {
@@ -32,28 +32,56 @@ namespace Aquarium.ConsoleApp
         {
             StoreRepo.GetStoreOrders(store);
         }
-        public void GetCustomerByName(string lastname, string firstname)
-        {
-            StoreRepo.GetCustomerByName(lastname, firstname);
-        }
         public void GetCustOrders(Library.Customer customer)
         {
             StoreRepo.GetCustOrders(customer);
         }
+        public void GetOrderById(int id)
+        {
+            StoreRepo.GetOrderById(id);
+        }
+        public void GetCustomerByName(string lastname, string firstname)
+        {
+            StoreRepo.GetCustomerByName(lastname, firstname);
+        }
+        public void GetAnimalByName(string name)
+        {
+            StoreRepo.GetAnimalByName(name);
+        }
         // Create
-        public void AddToInventory(string city, string name, int stock)
+        public void CreateInventory(string city, string name, int stock)
         {
             StoreRepo.AddToInventoryDb(city, name, stock);
         }
-        public void RemoveFromInventory(int storeid, int animalid, int quantity)
+        public void CreateCustomer(Library.Customer customer)
         {
-            StoreRepo.RemoveFromInventoryDb(storeid, animalid, quantity);
+            StoreRepo.AddToCustomerDb(customer);
+        }
+        public void CreateAnimal(Library.Animal animal)
+        {
+            StoreRepo.AddToAnimalDb(animal);
         }
         // Update
         public void UpdateInventory(string city, string name, int stock)
         {
             StoreRepo.UpdateInventoryDb(city, name, stock);
         }
+        public void UpdateOrder(Library.Order order)
+        {
+            StoreRepo.UpdateOrderDb(order);
+        }
+        public void UpdateCustomer(Library.Customer customer)
+        {
+            StoreRepo.UpdateCustomerDb(customer);
+        }
+        public void UpdateAnimal(Library.Animal animal)
+        {
+            StoreRepo.UpdateAnimalDb(animal);
+        }
         // Delete
+        public void RemoveFromInventory(int storeid, int animalid, int quantity)
+        {
+            StoreRepo.RemoveFromInventoryDb(storeid, animalid, quantity);
+        }
     }
 }

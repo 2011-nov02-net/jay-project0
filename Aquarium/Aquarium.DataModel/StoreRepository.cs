@@ -108,6 +108,16 @@ namespace Aquarium.DataModel
             context.Customers.Add(newCust);
             context.SaveChanges();
         }
+        public void UpdateCustomerDb(Library.Customer customer) {
+            using var context = new AquariumContext(_contextOptions);
+            var dbCust = context.Customers
+                .Where(c => c.CustomerId == customer.CustomerId)
+                .First();
+            dbCust.FirstName = customer.FirstName;
+            dbCust.LastName = customer.LastName;
+            dbCust.Email = customer.Email;
+            context.SaveChanges();
+        }
         public Library.Customer GetCustomerByName(string lastname, string firstname)
         {
             using var context = new AquariumContext(_contextOptions);
@@ -144,22 +154,23 @@ namespace Aquarium.DataModel
             var orders = new List<Library.Order>();
             foreach (var obj in dbOrders)
             {
-                orders.Add(GetOrderById(obj));
+                orders.Add(GetOrderById(obj.OrderId));
             }
             return orders;
         }
         // Conversion from DataModel.order to Library.Order
-        public Library.Order GetOrderById (DataModel.Order order)
+        public Library.Order GetOrderById (int id)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbOrders = context.Orders
-                .Where(o => o.OrderId == order.OrderId)
+                .Where(o => o.OrderId == id)
                 .Include(o => o.Store)
                 .Include(o => o.Customer)
                 .Include(o => o.Animal)
                 .First();
             var newOrder = new Library.Order
             {
+                OrderId = dbOrders.OrderId,
                 StoreId = dbOrders.StoreId,
                 CustomerId = dbOrders.CustomerId,
                 AnimalId = dbOrders.AnimalId,
@@ -182,6 +193,20 @@ namespace Aquarium.DataModel
                 Date = order.Date
             };
             context.Orders.Add(newEntry);
+            context.SaveChanges();
+        }
+        public void UpdateOrderDb(Library.Order order)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbOrders = context.Orders
+                .Where(o => o.OrderId == order.OrderId)
+                .First();
+            dbOrders.StoreId = order.StoreId;
+            dbOrders.CustomerId = order.CustomerId;
+            dbOrders.Date = order.Date;
+            dbOrders.AnimalId = order.AnimalId;
+            dbOrders.Quantity = order.Quantity;
+            dbOrders.Total = order.Total;
             context.SaveChanges();
         }
         public void AddToAnimalDb(Library.Animal animal) {
@@ -207,6 +232,15 @@ namespace Aquarium.DataModel
                 Price = dbAnimal.Price
             };
             return newAnimal;
+        }
+        public void UpdateAnimalDb(Library.Animal animal) {
+            using var context = new AquariumContext(_contextOptions);
+            var dbAnimal = context.Animals
+                .Where(a => a.AnimalId == animal.AnimalId)
+                .First();
+            dbAnimal.Name = animal.Name;
+            dbAnimal.Price = animal.Price;
+            context.SaveChanges();
         }
     }
 }
