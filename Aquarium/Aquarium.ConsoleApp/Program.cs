@@ -182,7 +182,7 @@ namespace Aquarium.ConsoleApp
                     }
                     return StoreOrders;
                 case "2":
-                    Console.WriteLine("Searching for all orders for a specific customer. Please input customer's email");
+                    Console.WriteLine("Searching for all orders made by a specific customer. Please input customer's email");
                     input = Console.ReadLine();
                     var CurrentCust = Current.GetCustomerByEmail(input);
                     Console.WriteLine($"Searching for all orders for {CurrentCust.FirstName}, {CurrentCust.LastName}...");
@@ -214,8 +214,12 @@ namespace Aquarium.ConsoleApp
                     var QuantityInput = Console.ReadLine(); // Need to check if store has enough animals in inventory
                     NewOrder.Quantity = Int32.Parse(QuantityInput);
                     NewOrder.GetTotal();
-                    Console.WriteLine("Final order information is as follows:");
-                    Console.WriteLine($"Animal: {NewOrder.Animal.Name}");
+                    Console.WriteLine("Order created. Final order information is as follows:");
+                    Console.WriteLine($"    Customer: {NewOrder.Customer.FirstName}, {NewOrder.Customer.LastName}");
+                    Console.WriteLine($"    Animal: {NewOrder.Animal.Name}");
+                    Console.WriteLine($"    Quantity: {NewOrder.Quantity}");
+                    Console.WriteLine($"    Total: {NewOrder.Total}");
+                    Current.CreateOrder(NewOrder);
                     return NewOrder;
                 default:
                     Console.WriteLine("Please try again.");
