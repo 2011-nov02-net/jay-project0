@@ -7,10 +7,15 @@ namespace Aquarium.Library
     {
         public int OrderId { get; set; }
         public int StoreId { get; set; }
-        public int CustomerId { get; set; }
-        public int AnimalId { get; set; }
+        public Library.Customer Customer { get; set; }
+        public Library.Animal Animal { get; set; }
         public int Quantity { get; set;}
         public decimal Total { get; set; }
         public DateTime Date { get; set; }
+
+        public void GetTotal(){
+            decimal result =  Animal.Price * Quantity;
+            Total = Convert.ToDecimal(result);
+        }
     }
 }

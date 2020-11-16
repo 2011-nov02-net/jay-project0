@@ -25,7 +25,7 @@ namespace Aquarium.DataModel
                 StoreId = dbStore.StoreId,
                 City = dbStore.City,
                 Country = dbStore.Country,
-                Inventory = new Dictionary<string, int>()
+                Inventory = new Dictionary<Library.Animal, int>()
             };
             var appInv = GetStoreInventory(appStore); // Seperate method to get a dictionary of animal name and quantity in the inventory
             foreach (var thing in appInv)
@@ -35,17 +35,17 @@ namespace Aquarium.DataModel
             return appStore;
         }
 
-        public Dictionary<string, int> GetStoreInventory(Library.Store store)
+        public Dictionary<Library.Animal, int> GetStoreInventory(Library.Store store)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbInventory = context.Inventories
                 .Where(i => i.StoreId == store.StoreId)
                 .Include(i => i.Animal)
                 .ToList();
-            var appInventory = new Dictionary<string, int>(); // Converts dbInventory from a list to a pair of name and quantity per row
-            foreach ( var thing in dbInventory)
+            var appInventory = new Dictionary<Library.Animal, int>();
+            foreach (var thing in dbInventory)
             {
-                appInventory.Add(thing.Animal.Name, thing.Quantity);
+                appInventory.Add(GetAnimalByName(thing.Animal.Name), thing.Quantity);
             }
             return appInventory;
         }
@@ -118,11 +118,11 @@ namespace Aquarium.DataModel
             dbCust.Email = customer.Email;
             context.SaveChanges();
         }
-        public Library.Customer GetCustomerByName(string firstname, string lastname)
+        public Library.Customer GetCustomerByEmail(string email)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbCust = context.Customers
-                .Where(c => c.LastName == lastname && c.FirstName == firstname)
+                .Where(c => c.Email == email)
                 .FirstOrDefault();
             var appCust = new Library.Customer()
             {
@@ -172,8 +172,8 @@ namespace Aquarium.DataModel
             {
                 OrderId = dbOrders.OrderId,
                 StoreId = dbOrders.StoreId,
-                CustomerId = dbOrders.CustomerId,
-                AnimalId = dbOrders.AnimalId,
+                Customer = GetCustomerByEmail(dbOrders.Customer.Email),
+                Animal = GetAnimalByName(dbOrders.Animal.Name),
                 Quantity = dbOrders.Quantity,
                 Total = dbOrders.Total,
                 Date = dbOrders.Date
@@ -186,8 +186,8 @@ namespace Aquarium.DataModel
             var newEntry = new DataModel.Order
             {
                 StoreId = order.StoreId,
-                CustomerId = order.CustomerId,
-                AnimalId = order.AnimalId,
+                CustomerId = order.Customer.CustomerId,
+                AnimalId = order.Animal.AnimalId,
                 Quantity = order.Quantity,
                 Total = order.Total,
                 Date = order.Date
@@ -202,9 +202,9 @@ namespace Aquarium.DataModel
                 .Where(o => o.OrderId == order.OrderId)
                 .FirstOrDefault();
             dbOrders.StoreId = order.StoreId;
-            dbOrders.CustomerId = order.CustomerId;
+            dbOrders.CustomerId = order.Customer.CustomerId;
             dbOrders.Date = order.Date;
-            dbOrders.AnimalId = order.AnimalId;
+            dbOrders.AnimalId = order.Animal.AnimalId;
             dbOrders.Quantity = order.Quantity;
             dbOrders.Total = order.Total;
             context.SaveChanges();

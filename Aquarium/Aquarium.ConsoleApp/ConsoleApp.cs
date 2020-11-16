@@ -41,9 +41,9 @@ namespace Aquarium.ConsoleApp
         {
             return StoreRepo.GetOrderById(id);
         }
-        public Library.Customer GetCustomerByName(string firstname, string lastname)
+        public Library.Customer GetCustomerByEmail(string email)
         {
-            return StoreRepo.GetCustomerByName(firstname, lastname);
+            return StoreRepo.GetCustomerByEmail(email);
         }
         public Library.Animal GetAnimalByName(string name)
         {
@@ -57,6 +57,9 @@ namespace Aquarium.ConsoleApp
         public void CreateCustomer(Library.Customer customer)
         {
             StoreRepo.AddToCustomerDb(customer);
+        }
+        public void CreateOrder(Library.Order order){
+            StoreRepo.AddToOrderDb(order);
         }
         public void CreateAnimal(Library.Animal animal)
         {
