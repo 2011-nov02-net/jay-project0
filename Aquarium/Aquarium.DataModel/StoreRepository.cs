@@ -65,7 +65,7 @@ namespace Aquarium.DataModel
                 var dbInventory = context.Inventories
                     .Include(i => i.Animal)
                     .Where(i => i.StoreId == currentStore.StoreId && i.Animal.Name == name)
-                    .First();
+                    .FirstOrDefault();
                 dbInventory.Quantity += stock;
                 context.SaveChanges();
             }
@@ -92,7 +92,7 @@ namespace Aquarium.DataModel
             var dbInventory = context.Inventories
                 .Where(i => i.StoreId == storeid)
                 .Where(i => i.AnimalId == animalid)
-                .First();
+                .FirstOrDefault();
             dbInventory.Quantity -= quantity;
             context.SaveChanges();
         }
@@ -112,18 +112,18 @@ namespace Aquarium.DataModel
             using var context = new AquariumContext(_contextOptions);
             var dbCust = context.Customers
                 .Where(c => c.CustomerId == customer.CustomerId)
-                .First();
+                .FirstOrDefault();
             dbCust.FirstName = customer.FirstName;
             dbCust.LastName = customer.LastName;
             dbCust.Email = customer.Email;
             context.SaveChanges();
         }
-        public Library.Customer GetCustomerByName(string lastname, string firstname)
+        public Library.Customer GetCustomerByName(string firstname, string lastname)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbCust = context.Customers
                 .Where(c => c.LastName == lastname && c.FirstName == firstname)
-                .First();
+                .FirstOrDefault();
             var appCust = new Library.Customer()
             {
                 CustomerId = dbCust.CustomerId,
@@ -167,7 +167,7 @@ namespace Aquarium.DataModel
                 .Include(o => o.Store)
                 .Include(o => o.Customer)
                 .Include(o => o.Animal)
-                .First();
+                .FirstOrDefault();
             var newOrder = new Library.Order
             {
                 OrderId = dbOrders.OrderId,
@@ -200,7 +200,7 @@ namespace Aquarium.DataModel
             using var context = new AquariumContext(_contextOptions);
             var dbOrders = context.Orders
                 .Where(o => o.OrderId == order.OrderId)
-                .First();
+                .FirstOrDefault();
             dbOrders.StoreId = order.StoreId;
             dbOrders.CustomerId = order.CustomerId;
             dbOrders.Date = order.Date;
@@ -237,7 +237,7 @@ namespace Aquarium.DataModel
             using var context = new AquariumContext(_contextOptions);
             var dbAnimal = context.Animals
                 .Where(a => a.AnimalId == animal.AnimalId)
-                .First();
+                .FirstOrDefault();
             dbAnimal.Name = animal.Name;
             dbAnimal.Price = animal.Price;
             context.SaveChanges();

@@ -20,30 +20,30 @@ namespace Aquarium.ConsoleApp
                 var CurrentLocation = LocationInput();
                 EmployeeMenu(CurrentLocation);
                 LocationInput(CurrentLocation);
-                StoreMenu();
                 var CurrentCustomer = CustomerInput(CurrentLocation);
             }
         }
         public static void LocationMenu()
         {
-                Console.WriteLine("Welcome to the Aquarium.");
-                Console.WriteLine("Please input store location based on the following options:");
-                Console.WriteLine("(1) New York City, USA");
-                Console.WriteLine("(2) Seoul, Korea");
-                // Console.WriteLine("(x) Cancel and exit app");
+            Console.WriteLine("Welcome to the Aquarium.");
+            Console.WriteLine("Please input store location based on the following options:");
+            Console.WriteLine("(1) New York City, USA");
+            Console.WriteLine("(2) Seoul, Korea");
+            // Console.WriteLine("(x) Cancel and exit app");
         }
         public static Library.Store LocationInput()
         {
             var input = Console.ReadLine();
-            switch(input)
-            { 
+            switch (input)
+            {
                 case "1":
                     return Current.GetStore("Nyc");
                 case "2":
                     return Current.GetStore("Seoul");
+                default:
+                    Console.WriteLine("Please try again.");
+                    return LocationInput();
             }
-            Console.WriteLine("Please try again.");
-            return LocationInput();
         }
         public static void EmployeeMenu(Library.Store store)
         {
@@ -56,7 +56,7 @@ namespace Aquarium.ConsoleApp
         public static void LocationInput(Library.Store store)
         {
             var input = Console.ReadLine();
-            switch(input)
+            switch (input)
             {
                 case "1":
                     StoreMenu();
@@ -70,9 +70,10 @@ namespace Aquarium.ConsoleApp
                 case "4":
                     AnimalMenu();
                     break;
+                default:
+                    LocationInput(store);
+                    break;
             }
-            Console.WriteLine("Please try again.");
-            LocationInput(store);
         }
         public static void StoreMenu()
         {
@@ -112,15 +113,19 @@ namespace Aquarium.ConsoleApp
         public static Library.Customer CustomerInput(Library.Store store)
         {
             var input = Console.ReadLine();
-            switch(input)
+            switch (input)
             {
                 case "1":
                     Console.WriteLine("Find customer by name. Please input the customer's first name");
                     input = Console.ReadLine();
                     Console.WriteLine("Please input the customer's last name");
                     var input2 = Console.ReadLine();
-                    return Current.GetCustomerByName(input, input2);
-;                case "2":
+                    var ExistingCust = Current.GetCustomerByName(input, input2);
+                    Console.WriteLine($"First name: {ExistingCust.FirstName}");
+                    Console.WriteLine($"Last name: {ExistingCust.LastName}");
+                    Console.WriteLine($"Email Address: {ExistingCust.Email}");
+                    return ExistingCust;
+                case "2":
                     Console.Write("Create a new customer. Please input new customer's first name");
                     var newCust = new Library.Customer();
                     newCust.FirstName = Console.ReadLine();
@@ -142,10 +147,10 @@ namespace Aquarium.ConsoleApp
                     Current.UpdateCustomer(CurrentCust);
                     Console.WriteLine($"New Email: {CurrentCust.Email} has been saved.");
                     return CurrentCust;
+                default:
+                    Console.WriteLine("Please try again.");
+                    return CustomerInput(store);
             }
-            Console.WriteLine("Please try again.");
-            return CustomerInput(store);
         }
-
     }
 }

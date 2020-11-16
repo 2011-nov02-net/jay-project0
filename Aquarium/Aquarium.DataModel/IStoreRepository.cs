@@ -13,7 +13,7 @@ namespace Aquarium.DataModel
         void RemoveFromInventoryDb(int storeid, int animalid, int quantity);
         void AddToCustomerDb(Library.Customer customer);
         void UpdateCustomerDb(Library.Customer customer);
-        Library.Customer GetCustomerByName(string lastname, string firstname);
+        Library.Customer GetCustomerByName(string firstname, string lastname);
         List<Library.Order> GetCustOrders(Library.Customer customer);
         List<Library.Order> GetStoreOrders(Library.Store store);
         Library.Order GetOrderById(int id);
