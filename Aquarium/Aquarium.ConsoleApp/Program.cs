@@ -19,7 +19,9 @@ namespace Aquarium.ConsoleApp
                 LocationMenu();
                 var CurrentLocation = LocationInput();
                 EmployeeMenu(CurrentLocation);
-                ServiceInput(CurrentLocation);
+                LocationInput(CurrentLocation);
+                StoreMenu();
+                var CurrentCustomer = CustomerInput(CurrentLocation);
             }
         }
         public static void LocationMenu()
@@ -51,7 +53,7 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(3) Order service");
             Console.WriteLine("(4) Animal service");
         }
-        public static void ServiceInput(Library.Store store)
+        public static void LocationInput(Library.Store store)
         {
             var input = Console.ReadLine();
             switch(input)
@@ -70,7 +72,7 @@ namespace Aquarium.ConsoleApp
                     break;
             }
             Console.WriteLine("Please try again.");
-            ServiceInput(store);
+            LocationInput(store);
         }
         public static void StoreMenu()
         {
@@ -106,5 +108,44 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(3) Modify an existing animal");
             Console.WriteLine("(4) Go back to a previous option");
         }
+
+        public static Library.Customer CustomerInput(Library.Store store)
+        {
+            var input = Console.ReadLine();
+            switch(input)
+            {
+                case "1":
+                    Console.WriteLine("Find customer by name. Please input the customer's first name");
+                    input = Console.ReadLine();
+                    Console.WriteLine("Please input the customer's last name");
+                    var input2 = Console.ReadLine();
+                    return Current.GetCustomerByName(input, input2);
+;                case "2":
+                    Console.Write("Create a new customer. Please input new customer's first name");
+                    var newCust = new Library.Customer();
+                    newCust.FirstName = Console.ReadLine();
+                    Console.Write("Please input new customer's last name");
+                    newCust.LastName = Console.ReadLine();
+                    Console.WriteLine("Please input new customer's E-mail address. If none, press enter");
+                    newCust.Email = Console.ReadLine();
+                    Console.WriteLine($"First name: {newCust.FirstName} , Last name: {newCust.LastName} , Email: {newCust.Email} has been created.");
+                    Current.CreateCustomer(newCust);
+                    return newCust;
+                case "3":
+                    Console.WriteLine("Modify an existing customer. Please input the customer's first name");
+                    input = Console.ReadLine();
+                    Console.WriteLine("Please input the customer's last name");
+                    input2 = Console.ReadLine();
+                    var CurrentCust = Current.GetCustomerByName(input, input2);
+                    Console.WriteLine("Customer found. Input customer's new email");
+                    CurrentCust.Email = Console.ReadLine();
+                    Current.UpdateCustomer(CurrentCust);
+                    Console.WriteLine($"New Email: {CurrentCust.Email} has been saved.");
+                    return CurrentCust;
+            }
+            Console.WriteLine("Please try again.");
+            return CustomerInput(store);
+        }
+
     }
 }

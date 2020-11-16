@@ -134,7 +134,7 @@ namespace Aquarium.DataModel
             return appCust;
         }
         // Get orders from the database
-        public IEnumerable<Library.Order> GetCustOrders(Library.Customer customer)
+        public List<Library.Order> GetCustOrders(Library.Customer customer)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbOrders = context.Orders
@@ -146,7 +146,7 @@ namespace Aquarium.DataModel
             }
             return orders;
         }
-        public IEnumerable<Library.Order> GetStoreOrders(Library.Store store)
+        public List<Library.Order> GetStoreOrders(Library.Store store)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbOrders = context.Orders

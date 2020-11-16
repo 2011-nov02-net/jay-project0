@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Aquarium.Library;
 using Aquarium.DataModel;
 using System.Linq;
@@ -28,26 +29,25 @@ namespace Aquarium.ConsoleApp
         {
             return StoreRepo.GetStoreByCity(city);
         }
-        public void GetStoreOrders(Library.Store store)
+        public List<Library.Order> GetStoreOrders(Library.Store store)
         {
-            StoreRepo.GetStoreOrders(store);
+           return StoreRepo.GetStoreOrders(store);
         }
-        public void GetCustOrders(Library.Customer customer)
+        public List<Library.Order> GetCustOrders(Library.Customer customer)
         {
-            StoreRepo.GetCustOrders(customer);
+            return StoreRepo.GetCustOrders(customer);
         }
-        public void GetOrderById(int id)
+        public Library.Order GetOrderById(int id)
         {
-            StoreRepo.GetOrderById(id);
+            return StoreRepo.GetOrderById(id);
         }
-        public void GetCustomerByName(string lastname, string firstname)
+        public Library.Customer GetCustomerByName(string lastname, string firstname)
         {
-            StoreRepo.GetCustomerByName(lastname, firstname);
+            return StoreRepo.GetCustomerByName(lastname, firstname);
         }
-        public void GetAnimalByName(string name)
+        public Library.Animal GetAnimalByName(string name)
         {
-            Console.WriteLine("test");
-            StoreRepo.GetAnimalByName(name);
+            return StoreRepo.GetAnimalByName(name);
         }
         // Create
         public void CreateInventory(string city, string name, int stock)
