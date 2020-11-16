@@ -10,17 +10,17 @@ namespace Aquarium.Library
         public string City { get; set; }
         public string Country { get; set; }
         public Dictionary<Animal, int> Inventory { get; set; }
-        // public void AddToInventory(string name, int stock)
-        // {
-        //     if (Inventory.ContainsKey(name))
-        //     {
-        //         Inventory[name] += stock;
-        //     }
-        //     else
-        //     {
-        //         Inventory.Add(name, stock);
-        //     }
-        // }
+        public void AddToInventory(Library.Animal animal, int stock)
+        {
+            if (Inventory.ContainsKey(animal))
+            {
+                Inventory[animal] += stock;
+            }
+            else
+            {
+                Inventory.Add(animal, stock);
+            }
+        }
         // public void RemoveFromInventory(string name, int stock)
         // {
         //     if (stock > Inventory[name]) {

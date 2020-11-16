@@ -50,9 +50,9 @@ namespace Aquarium.ConsoleApp
             return StoreRepo.GetAnimalByName(name);
         }
         // Create
-        public void CreateInventory(string city, string name, int stock)
+        public void CreateInventory(string city, Library.Animal animal, int stock)
         {
-            StoreRepo.AddToInventoryDb(city, name, stock);
+            StoreRepo.AddToInventoryDb(city, animal, stock);
         }
         public void CreateCustomer(Library.Customer customer)
         {
@@ -66,9 +66,9 @@ namespace Aquarium.ConsoleApp
             StoreRepo.AddToAnimalDb(animal);
         }
         // Update
-        public void UpdateInventory(string city, string name, int stock)
+        public void UpdateInventory(string city, Library.Animal animal, int stock)
         {
-            StoreRepo.UpdateInventoryDb(city, name, stock);
+            StoreRepo.UpdateInventoryDb(city, animal, stock);
         }
         public void UpdateOrder(Library.Order order)
         {
@@ -83,9 +83,9 @@ namespace Aquarium.ConsoleApp
             StoreRepo.UpdateAnimalDb(animal);
         }
         // Delete
-        public void RemoveFromInventory(int storeid, int animalid, int quantity)
+        public void RemoveFromInventory(int storeid, Library.Animal animal, int quantity)
         {
-            StoreRepo.RemoveFromInventoryDb(storeid, animalid, quantity);
+            StoreRepo.RemoveFromInventoryDb(storeid, animal, quantity);
         }
     }
 }

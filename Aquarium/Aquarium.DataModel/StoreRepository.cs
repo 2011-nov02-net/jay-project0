@@ -49,12 +49,12 @@ namespace Aquarium.DataModel
             }
             return appInventory;
         }
-        public void UpdateInventoryDb(string city, string name, int stock)
+        public void UpdateInventoryDb(string city, Library.Animal animal, int stock)
         {
             using var context = new AquariumContext(_contextOptions);
             // Checks to see if animal exists in database already, move this login to business?
             bool animalExist = context.Animals
-                .Any(a => a.Name == name);
+                .Any(a => a.Name == animal.Name);
             if(!animalExist)
             {
                 Console.WriteLine("Animal does not exist in database. Please update the animal database");
@@ -64,17 +64,17 @@ namespace Aquarium.DataModel
                 var currentStore = GetStoreByCity(city);
                 var dbInventory = context.Inventories
                     .Include(i => i.Animal)
-                    .Where(i => i.StoreId == currentStore.StoreId && i.Animal.Name == name)
+                    .Where(i => i.StoreId == currentStore.StoreId && i.Animal.Name == animal.Name)
                     .FirstOrDefault();
                 dbInventory.Quantity += stock;
                 context.SaveChanges();
             }
         }
-        public void AddToInventoryDb(string city, string name, int stock)
+        public void AddToInventoryDb(string city, Library.Animal animal, int stock)
         {
             using var context = new AquariumContext(_contextOptions);
             var currentStore = GetStoreByCity(city);
-            var currentAnimal = GetAnimalByName(name);
+            var currentAnimal = GetAnimalByName(animal.Name);
             var newEntry = new DataModel.Inventory()
             {
                 StoreId = currentStore.StoreId,
@@ -86,12 +86,12 @@ namespace Aquarium.DataModel
         }
         // Meant to be used to subtract the quantity of the animal from a processed order
         // Not using Library.order object directly since I want the option to remove from inventory even without a new order subtraction
-        public void RemoveFromInventoryDb(int storeid, int animalid, int quantity)
+        public void RemoveFromInventoryDb(int storeid, Library.Animal animal, int quantity)
         {
             using var context = new AquariumContext(_contextOptions);
             var dbInventory = context.Inventories
                 .Where(i => i.StoreId == storeid)
-                .Where(i => i.AnimalId == animalid)
+                .Where(i => i.AnimalId == animal.AnimalId)
                 .FirstOrDefault();
             dbInventory.Quantity -= quantity;
             context.SaveChanges();

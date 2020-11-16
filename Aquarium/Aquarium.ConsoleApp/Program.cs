@@ -20,7 +20,7 @@ namespace Aquarium.ConsoleApp
                 var CurrentLocation = SetStore();
                 EmployeeMenu(CurrentLocation);
                 var input = LocationInput(CurrentLocation);
-                var result = MenuInput(input, CurrentLocation);
+                MenuInput(input, CurrentLocation);
             }
         }
         public static void LocationMenu()
@@ -79,10 +79,10 @@ namespace Aquarium.ConsoleApp
         {
             Console.WriteLine("You've accessed the store menu. Please pick one of the following options");
             Console.WriteLine("(1) Get store inventory");
-            Console.WriteLine("(2) Create new store inventory");
-            Console.WriteLine("(3) Modify an existing store inventory");
-            Console.WriteLine("(4) Delete from store inventory");
-            Console.WriteLine("(5) Go back to a previous option");
+            Console.WriteLine("(2) Modify existing store inventory");
+            Console.WriteLine("(3) Get all orders made at this store");
+            // Console.WriteLine("(4) Delete from store inventory");
+            // Console.WriteLine("(5) Go back to a previous option");
         }
         public static void CustomerMenu()
         {
@@ -90,7 +90,7 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(1) Find customer by name");
             Console.WriteLine("(2) Create a new customer");
             Console.WriteLine("(3) Modify an existing customer");
-            Console.WriteLine("(4) Go back to a previous option");
+            // Console.WriteLine("(4) Go back to a previous option");
         }
         public static void OrderMenu()
         {
@@ -98,31 +98,86 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(1) Find orders by store");
             Console.WriteLine("(2) Find orders by customer");
             Console.WriteLine("(3) Create a new order");
-            Console.WriteLine("(4) Modify an existing order");
-            Console.WriteLine("(5) Go back to a previous option");
+            // Console.WriteLine("(4) Modify an existing order");
+            // Console.WriteLine("(5) Go back to a previous option");
         }
         public static void AnimalMenu()
         {
             Console.WriteLine("You've accessed the animal menu. Please pick one of the following options");
             Console.WriteLine("(1) Find animal by name");
             Console.WriteLine("(2) Add a new animal");
-            Console.WriteLine("(3) Modify an existing animal");
-            Console.WriteLine("(4) Go back to a previous option");
+            // Console.WriteLine("(3) Modify an existing animal");
+            // Console.WriteLine("(4) Go back to a previous option");
         }
-        public static object MenuInput(string input, Library.Store location)
+        public static void MenuInput(string input, Library.Store location)
         {
             switch(input)
             {
+                case "1":
+                    StoreInput(location);
+                    break;
                 case "2":
-                   return CustomerInput(location);
+                    CustomerInput(location);
+                    break;
                 case "3":
-                    return OrderInput(location);
+                    OrderInput(location);
+                    break;
                 default:
                     Console.WriteLine("Please try again.");
-                    return MenuInput(input, location);
+                    MenuInput(input, location);
+                    break;
             }
         }
-        public static Library.Customer CustomerInput(Library.Store store)
+        public static void StoreInput(Library.Store store)
+        {
+            var input = Console.ReadLine();
+            switch(input)
+            {
+                case "1":
+                    Console.WriteLine($"Searching for all animals at store location ({store.City}).");
+                    foreach (var inv in store.Inventory)
+                    {
+                        Console.WriteLine($"{inv.Key.Name} - {inv.Value}");
+                    }
+                    break;
+                case "2":
+                    Console.WriteLine($"Updating current store inventory. Here is a list of all animals and their quantity at store location ({store.City}). Please type name of animal.");
+                    foreach(var animal in store.Inventory)
+                    {
+                        Console.WriteLine($"Name: {animal.Key.Name} | Quantity: {animal.Value}");
+                    }
+                    input = Console.ReadLine();
+                    var CurrentAnimal = Current.GetAnimalByName(input);
+                    Console.WriteLine($"How many {CurrentAnimal}s would you like to insert?");
+                    var input2 = Console.ReadLine();
+                    var quantityInt = Int32.Parse(input2);
+                    store.AddToInventory(CurrentAnimal, quantityInt);
+                    Current.UpdateInventory(store.City, CurrentAnimal, quantityInt);
+                    Console.WriteLine($"{CurrentAnimal.Name} with a quantity of {input2} has been inserted.");
+                    break;
+                case "3":
+                    Console.WriteLine($"Searching for all orders made at store location ({store.City}).");
+                    var StoreOrders = Current.GetStoreOrders(store);
+                    Console.WriteLine($"Found {StoreOrders.Count} result(s):");
+                    foreach (var order in StoreOrders)
+                    {
+                        Console.WriteLine($"Order ID: {order.OrderId}");
+                        Console.WriteLine($"    Customer Email: {order.Customer.Email}");
+                        Console.WriteLine($"    Customer ID: {order.Customer.CustomerId}");
+                        Console.WriteLine($"    Animal: {order.Animal.Name}");
+                        Console.WriteLine($"    Quantity: {order.Quantity}");
+                        Console.WriteLine($"    Total: {order.Total}");
+                        Console.WriteLine($"    Date: {order.Date}");
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Please try again.");
+                    StoreInput(store);
+                    break;
+            }
+        }
+
+        public static void CustomerInput(Library.Store store)
         {
             var input = Console.ReadLine();
             switch (input)
@@ -134,7 +189,7 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine($"First name: {ExistingCust.FirstName}");
                     Console.WriteLine($"Last name: {ExistingCust.LastName}");
                     Console.WriteLine($"Email Address: {ExistingCust.Email}");
-                    return ExistingCust;
+                    break;
                 case "2":
                     Console.Write("Create a new customer. Please input new customer's first name");
                     var newCust = new Library.Customer();
@@ -148,7 +203,7 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine($"Last name: {newCust.LastName}");
                     Console.WriteLine($"Email: {newCust.Email}");
                     Current.CreateCustomer(newCust);
-                    return newCust;
+                    break;
                 case "3":
                     Console.WriteLine("Modify an existing customer. Please input the customer's email");
                     input = Console.ReadLine();
@@ -157,10 +212,11 @@ namespace Aquarium.ConsoleApp
                     CurrentCust.Email = Console.ReadLine();
                     Current.UpdateCustomer(CurrentCust);
                     Console.WriteLine($"New Email: {CurrentCust.Email} has been saved.");
-                    return CurrentCust;
+                    break;
                 default:
                     Console.WriteLine("Please try again.");
-                    return CustomerInput(store);
+                    CustomerInput(store);
+                    break;
             }
         }
         public static object OrderInput(Library.Store store)
@@ -179,6 +235,8 @@ namespace Aquarium.ConsoleApp
                         Console.WriteLine($"    Customer ID: {order.Customer.CustomerId}");
                         Console.WriteLine($"    Animal: {order.Animal.Name}");
                         Console.WriteLine($"    Quantity: {order.Quantity}");
+                        Console.WriteLine($"    Total: {order.Total}");
+                        Console.WriteLine($"    Date: {order.Date}");
                     }
                     return StoreOrders;
                 case "2":
@@ -195,6 +253,8 @@ namespace Aquarium.ConsoleApp
                         Console.WriteLine($"    Customer ID: {order.Customer.CustomerId}");
                         Console.WriteLine($"    Animal: {order.Animal.Name}");
                         Console.WriteLine($"    Quantity: {order.Quantity}");
+                        Console.WriteLine($"    Total: {order.Total}");
+                        Console.WriteLine($"    Date: {order.Date}");
                     }
                     return CustOrders;
                 case "3":
@@ -213,17 +273,19 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine($"How many {animalNameInput}s for purchase?");
                     var QuantityInput = Console.ReadLine(); // Need to check if store has enough animals in inventory
                     NewOrder.Quantity = Int32.Parse(QuantityInput);
+                    NewOrder.Date = DateTime.Now;
                     NewOrder.GetTotal();
                     Console.WriteLine("Order created. Final order information is as follows:");
                     Console.WriteLine($"    Customer: {NewOrder.Customer.FirstName}, {NewOrder.Customer.LastName}");
                     Console.WriteLine($"    Animal: {NewOrder.Animal.Name}");
                     Console.WriteLine($"    Quantity: {NewOrder.Quantity}");
                     Console.WriteLine($"    Total: {NewOrder.Total}");
+                    Console.WriteLine($"    Date: {NewOrder.Date}");
                     Current.CreateOrder(NewOrder);
                     return NewOrder;
                 default:
                     Console.WriteLine("Please try again.");
-                    return CustomerInput(store);
+                    return OrderInput(store);
             }
         }
     }
