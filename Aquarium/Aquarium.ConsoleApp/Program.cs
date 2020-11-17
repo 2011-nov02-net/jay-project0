@@ -17,11 +17,11 @@ namespace Aquarium.ConsoleApp
             bool online = true;
             while (online)
             {
-                LocationMenu();
-                var CurrentLocation = SetStore();
-                EmployeeMenu(CurrentLocation);
+                LocationMenu(); // Shows all store locations
+                var CurrentLocation = SetStore(); // Creates an instance of a store object from the location parameter
+                EmployeeMenu(CurrentLocation); // Menu 1 showing options for store / customers / orders
                 var input = Console.ReadLine();
-                MenuInput(input, CurrentLocation);
+                MenuInput(input, CurrentLocation); // Choose from a submenu from Menu 1
                 Console.WriteLine("Going back to the main menu.");
             }
         }
@@ -53,14 +53,6 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(2) Customer service");
             Console.WriteLine("(3) Order service");
             Console.WriteLine("(4) Animal service");
-        }
-        public static void AnimalMenu()
-        {
-            Console.WriteLine("You've accessed the animal menu. Please pick one of the following options");
-            Console.WriteLine("(1) Find animal by name");
-            Console.WriteLine("(2) Add a new animal");
-            // Console.WriteLine("(3) Modify an existing animal");
-            // Console.WriteLine("(4) Go back to a previous option");
         }
         public static void MenuInput(string input, Library.Store location)
         {
@@ -188,20 +180,28 @@ namespace Aquarium.ConsoleApp
                 case "2":
                     Console.WriteLine("Searching for all orders made by a specific customer. Please input customer's email");
                     input = Console.ReadLine();
-                    var CurrentCust = Current.GetCustomerByEmail(input);
-                    Console.WriteLine($"Searching for all orders for {CurrentCust.FirstName}, {CurrentCust.LastName}...");
-                    var CustOrders = Current.GetCustOrders(CurrentCust);
-                    Console.WriteLine($"Found {CustOrders.Count} result(s):");
-                    foreach (var order in CustOrders)
+                    try
                     {
-                        order.GetOrderInfo();
+                        Current.GetCustomerByEmail(input);
+                        var CurrentCust = Current.GetCustomerByEmail(input);
+                        var CustOrders = Current.GetCustOrders(CurrentCust);
+                        Console.WriteLine($"Found {CustOrders.Count} result(s):");
+                        foreach (var order in CustOrders)
+                        {
+                            order.GetOrderInfo();
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Console.WriteLine("Email not found.");
+                        OrderInput(store);
                     }
                     break;
                 case "3":
                     Console.WriteLine($"Creating a new order in store location ({store.City}). Please input customer's email");
                     input = Console.ReadLine();
                     var NewOrder = new Library.Order();
-                    NewOrder.Customer = Current.GetCustomerByEmail(input);
+                    NewOrder.Customer = Current.GetCustomerByEmail(input); // Need to check to see if email exists
                     Console.WriteLine($"Input name of the animal for this purchase. Our store location at ({store.City}) has:");
                     store.GetStoreInventory();
                     var animalNameInput = Console.ReadLine(); // Need to check if animal name exists. If it does, continue

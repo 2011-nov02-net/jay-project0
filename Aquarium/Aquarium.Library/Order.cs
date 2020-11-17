@@ -20,7 +20,6 @@ namespace Aquarium.Library
         public void GetOrderInfo(){
             Console.WriteLine($"ORDER:");
             Console.WriteLine($"    Customer Email: {Customer.Email}");
-            Console.WriteLine($"    Customer ID: {Customer.CustomerId}");
             Console.WriteLine($"    Animal: {Animal.Name}");
             Console.WriteLine($"    Quantity: {Quantity}");
             Console.WriteLine($"    Total: {Total}");
