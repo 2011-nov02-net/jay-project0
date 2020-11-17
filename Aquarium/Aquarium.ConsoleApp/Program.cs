@@ -223,48 +223,49 @@ namespace Aquarium.ConsoleApp
                 case "3":
                     Console.WriteLine($"Creating a new order in store location ({store.City}). Please input customer's email");
                     input = Console.ReadLine();
+                    var NewOrder = new Library.Order();
                     try
                     {
-                        var NewOrder = new Library.Order();
                         NewOrder.Customer = Current.GetCustomerByEmail(input);
-                        Console.WriteLine($"Input name of the animal for this purchase. Our store location at ({store.City}) has:");
-                        store.GetStoreInventory();
-                        var animalNameInput = Console.ReadLine();
-                        try
-                        {
-                            var currentAnimal = Current.GetAnimalByName(animalNameInput);
-                            Console.WriteLine($"How many {currentAnimal.Name}s for purchase?");
-                            var QuantityInput = Console.ReadLine();
-                            var Quant = Int32.Parse(QuantityInput);
-                            store.InInventory(currentAnimal);
-                            try 
-                            {
-                                NewOrder.Animal = currentAnimal;
-                                NewOrder.Quantity = Quant;
-                                NewOrder.StoreId = store.StoreId;
-                                NewOrder.Date = DateTime.Now;
-                                NewOrder.GetTotal();
-                                Console.WriteLine("Order created. Order receipt:");
-                                Current.CreateOrder(NewOrder);
-                                Current.UpdateInventory(store.City, currentAnimal, Quant * -1);
-                                NewOrder.GetOrderInfo();
-                                Current.GetStore(store.City);
-                            }
-                            catch(Exception)
-                            {
-                                Console.WriteLine($"Too many {currentAnimal.Name}(s) in order.");
-                                OrderInput(store);
-                            }
-                        }
-                        catch(NullReferenceException)
-                        {
-                            Console.WriteLine($"{NewOrder.Animal.Name} not found in inventory.");
-                            OrderInput(store);
-                        };
                     }
-                    catch (NullReferenceException)
+                    catch (Exception)
                     {
                         Console.WriteLine($"Error. Could not find {input}");
+                        OrderInput(store);
+                    }
+                    NewOrder.Customer = Current.GetCustomerByEmail(input);
+                    Console.WriteLine($"Input name of the animal for this purchase. Our store location at ({store.City}) has:");
+                    store.GetStoreInventory();
+                    var animalNameInput = Console.ReadLine();
+                    try {
+                        Current.GetAnimalByName(animalNameInput);
+                    }
+                    catch(NullReferenceException)
+                    {
+                        Console.WriteLine($"{animalNameInput} not found in inventory.");
+                        OrderInput(store);
+                    };
+                    var currentAnimal = Current.GetAnimalByName(animalNameInput);
+                    Console.WriteLine($"How many {currentAnimal.Name}s for purchase?");
+                    var QuantityInput = Console.ReadLine();
+                    try
+                    {
+                        var Quant = Int32.Parse(QuantityInput);
+                        store.InInventory(currentAnimal);
+                        NewOrder.Animal = currentAnimal;
+                        NewOrder.Quantity = Quant;
+                        NewOrder.StoreId = store.StoreId;
+                        NewOrder.Date = DateTime.Now;
+                        NewOrder.GetTotal();
+                        Current.CreateOrder(NewOrder);
+                        Current.UpdateInventory(store.City, currentAnimal, Quant * -1);
+                        Console.WriteLine("Order created. Order receipt:");
+                        NewOrder.GetOrderInfo();
+                        Current.GetStore(store.City);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine($"Too many {currentAnimal.Name}(s) in order.");
                         OrderInput(store);
                     }
                     break;
