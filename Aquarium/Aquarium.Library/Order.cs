@@ -22,7 +22,7 @@ namespace Aquarium.Library
             Console.WriteLine($"    Customer Email: {Customer.Email}");
             Console.WriteLine($"    Animal: {Animal.Name}");
             Console.WriteLine($"    Quantity: {Quantity}");
-            Console.WriteLine($"    Total: {Total}");
+            Console.WriteLine($"    Total: ${Total}");
             Console.WriteLine($"    Date: {Date}");
         }
     }

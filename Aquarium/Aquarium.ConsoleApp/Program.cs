@@ -247,7 +247,7 @@ namespace Aquarium.ConsoleApp
                                 NewOrder.GetTotal();
                                 Console.WriteLine("Order created. Order receipt:");
                                 Current.CreateOrder(NewOrder);
-                                Current.UpdateInventory(store.City, currentAnimal, Quant);
+                                Current.UpdateInventory(store.City, currentAnimal, (Quant * -1));
                                 NewOrder.GetOrderInfo();
                             }
                             catch(Exception)
