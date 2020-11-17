@@ -13,19 +13,20 @@ namespace Aquarium.ConsoleApp
         public static ConsoleApp Current = new ConsoleApp();
         static void Main(string[] args)
         {
+            Console.WriteLine("Welcome to the Aquarium.");
             bool online = true;
             while (online)
             {
                 LocationMenu();
                 var CurrentLocation = SetStore();
                 EmployeeMenu(CurrentLocation);
-                var input = LocationInput(CurrentLocation);
+                var input = Console.ReadLine();
                 MenuInput(input, CurrentLocation);
+                Console.WriteLine("Going back to the main menu.");
             }
         }
         public static void LocationMenu()
         {
-            Console.WriteLine("Welcome to the Aquarium.");
             Console.WriteLine("Please input store location based on the following options:");
             Console.WriteLine("(1) New York City, USA");
             Console.WriteLine("(2) Seoul, Korea");
@@ -52,54 +53,6 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(2) Customer service");
             Console.WriteLine("(3) Order service");
             Console.WriteLine("(4) Animal service");
-        }
-        public static string LocationInput(Library.Store store)
-        {
-            var input = Console.ReadLine();
-            switch (input)
-            {
-                case "1":
-                    StoreMenu();
-                    return "1";
-                case "2":
-                    CustomerMenu();
-                    return "2";
-                case "3":
-                    OrderMenu();
-                    return "3";
-                case "4":
-                    AnimalMenu();
-                    return "4";
-                default:
-                    Console.WriteLine("Please try again.");
-                    return LocationInput(store);
-            }
-        }
-        public static void StoreMenu()
-        {
-            Console.WriteLine("You've accessed the store menu. Please pick one of the following options");
-            Console.WriteLine("(1) Get store inventory");
-            Console.WriteLine("(2) Modify existing store inventory");
-            Console.WriteLine("(3) Get all orders made at this store");
-            // Console.WriteLine("(4) Delete from store inventory");
-            // Console.WriteLine("(5) Go back to a previous option");
-        }
-        public static void CustomerMenu()
-        {
-            Console.WriteLine("You've accessed the customer menu. Please pick one of the following options");
-            Console.WriteLine("(1) Find customer by name");
-            Console.WriteLine("(2) Create a new customer");
-            Console.WriteLine("(3) Modify an existing customer");
-            // Console.WriteLine("(4) Go back to a previous option");
-        }
-        public static void OrderMenu()
-        {
-            Console.WriteLine("You've accessed the order menu. Please pick one of the following options");
-            Console.WriteLine("(1) Find orders by store");
-            Console.WriteLine("(2) Find orders by customer");
-            Console.WriteLine("(3) Create a new order");
-            // Console.WriteLine("(4) Modify an existing order");
-            // Console.WriteLine("(5) Go back to a previous option");
         }
         public static void AnimalMenu()
         {
@@ -130,6 +83,10 @@ namespace Aquarium.ConsoleApp
         }
         public static void StoreInput(Library.Store store)
         {
+            Console.WriteLine("You've accessed the store menu. Please pick one of the following options");
+            Console.WriteLine("(1) Get store inventory");
+            Console.WriteLine("(2) Modify existing store inventory");
+            Console.WriteLine("(3) Get all orders made at this store");
             var input = Console.ReadLine();
             switch(input)
             {
@@ -167,6 +124,10 @@ namespace Aquarium.ConsoleApp
 
         public static void CustomerInput(Library.Store store)
         {
+            Console.WriteLine("You've accessed the customer menu. Please pick one of the following options");
+            Console.WriteLine("(1) Find customer by name");
+            Console.WriteLine("(2) Create a new customer");
+            Console.WriteLine("(3) Modify an existing customer");
             var input = Console.ReadLine();
             switch (input)
             {
@@ -208,6 +169,10 @@ namespace Aquarium.ConsoleApp
         }
         public static void OrderInput(Library.Store store)
         {
+            Console.WriteLine("You've accessed the order menu. Please pick one of the following options");
+            Console.WriteLine("(1) Find orders by store");
+            Console.WriteLine("(2) Find orders by customer");
+            Console.WriteLine("(3) Create a new order");
             var input = Console.ReadLine();
             switch (input)
             {
@@ -239,18 +204,36 @@ namespace Aquarium.ConsoleApp
                     NewOrder.Customer = Current.GetCustomerByEmail(input);
                     Console.WriteLine($"Input name of the animal for this purchase. Our store location at ({store.City}) has:");
                     store.GetStoreInventory();
-                    var animalNameInput = Console.ReadLine(); // Need to check if animal name exists
+                    var animalNameInput = Console.ReadLine(); // Need to check if animal name exists. If it does, continue
                     NewOrder.Animal = Current.GetAnimalByName(animalNameInput);
                     Console.WriteLine($"How many {animalNameInput}s for purchase?");
                     var QuantityInput = Console.ReadLine(); // Need to check if store has enough animals in inventory
-                    NewOrder.Quantity = Int32.Parse(QuantityInput);
-                    NewOrder.StoreId = store.StoreId;
-                    NewOrder.Date = DateTime.Now;
-                    NewOrder.GetTotal();
-                    Console.WriteLine("Order created. Order receipt:");
-                    Current.CreateOrder(NewOrder);
-                    NewOrder.GetOrderInfo();
-                    break;
+                    var Quant = Int32.Parse(QuantityInput);
+                    if (store.InInventory(NewOrder.Animal)) {
+                        if(store.RemoveFromInventory(NewOrder.Animal, Quant))
+                        {
+                            NewOrder.Quantity = Quant;
+                            NewOrder.StoreId = store.StoreId;
+                            NewOrder.Date = DateTime.Now;
+                            NewOrder.GetTotal();
+                            Console.WriteLine("Order created. Order receipt:");
+                            Current.CreateOrder(NewOrder);
+                            NewOrder.GetOrderInfo();
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Not enough {NewOrder.Animal.Name} in stock.");
+                            OrderInput(store);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{NewOrder.Animal.Name} not found in inventory.");
+                        OrderInput(store);
+                        break;
+                    }
                 default:
                     Console.WriteLine("Please try again.");
                     OrderInput(store);

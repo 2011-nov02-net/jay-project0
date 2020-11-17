@@ -10,9 +10,9 @@ namespace Aquarium.Library
         public string City { get; set; }
         public string Country { get; set; }
         public Dictionary<Animal, int> Inventory { get; set; }
-        public void AddToInventory(Library.Animal animal, int stock)
+        public void AddToInventory(Animal animal, int stock)
         {
-            if (Inventory.ContainsKey(animal))
+            if (InInventory(animal))
             {
                 Inventory[animal] += stock;
             }
@@ -27,24 +27,21 @@ namespace Aquarium.Library
                 Console.WriteLine($"{inv.Key.Name} - {inv.Value}");
             }
         }
-        // public void RemoveFromInventory(string name, int stock)
-        // {
-        //     if (stock > Inventory[name]) {
-        //         Console.WriteLine($"Not enough {name} in stock.");
-        //     }
-        //     Inventory[name] -= stock;
-        // }
-        // public string SearchInventory(string animalName)
-        // {
-        //     if (Inventory.ContainsKey(animalName))
-        //     {
-        //         var animalQuantity = Inventory[animalName];
-        //         return $"There are {animalQuantity} {animalName}(s) in stock.";
-        //     }
-        //     else
-        //     {
-        //         return "Animal not found";
-        //     }
-        // }
+        public bool RemoveFromInventory(Animal animal, int stock)
+        {
+            if (stock > Inventory[animal]) {
+                    return false;
+            }
+            Inventory[animal] -= stock;
+            return true;
+        }
+        public bool InInventory(Animal animal)
+        {
+            if (!(Inventory.ContainsKey(animal)))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
