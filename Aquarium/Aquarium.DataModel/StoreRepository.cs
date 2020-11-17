@@ -52,7 +52,6 @@ namespace Aquarium.DataModel
         public void UpdateInventoryDb(string city, Library.Animal animal, int stock)
         {
             using var context = new AquariumContext(_contextOptions);
-            // Checks to see if animal exists in database already, move this login to business?
             bool animalExist = context.Animals
                 .Any(a => a.Name == animal.Name);
             if(!animalExist)

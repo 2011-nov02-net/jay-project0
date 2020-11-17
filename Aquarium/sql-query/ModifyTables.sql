@@ -4,7 +4,6 @@ alter table Aquarium.Inventory
 go
 
 alter table Aquarium.Orders
-	add constraint Date default getdate() for Date
 	add AnimalId int not null
 		constraint FK_Orders_AnimalId foreign key references Aquarium.Animal(AnimalId) on delete cascade on update cascade;
 go

@@ -52,7 +52,7 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(1) Store service");
             Console.WriteLine("(2) Customer service");
             Console.WriteLine("(3) Order service");
-            Console.WriteLine("(4) Animal service");
+            // Console.WriteLine("(4) Animal service");
         }
         public static void MenuInput(string input, Library.Store location)
         {
@@ -93,7 +93,7 @@ namespace Aquarium.ConsoleApp
                     try
                     {
                         var CurrentAnimal = Current.GetAnimalByName(input);
-                        Console.WriteLine($"How many {CurrentAnimal}s would you like to insert?");
+                        Console.WriteLine($"How many {CurrentAnimal.Name}s would you like to insert?");
                         var input2 = Console.ReadLine();
                         var quantityInt = Int32.Parse(input2);
                         store.AddToInventory(CurrentAnimal, quantityInt);
@@ -239,7 +239,6 @@ namespace Aquarium.ConsoleApp
                             store.InInventory(currentAnimal);
                             try 
                             {
-                                store.RemoveFromInventory(currentAnimal, Quant);
                                 NewOrder.Animal = currentAnimal;
                                 NewOrder.Quantity = Quant;
                                 NewOrder.StoreId = store.StoreId;
@@ -247,22 +246,23 @@ namespace Aquarium.ConsoleApp
                                 NewOrder.GetTotal();
                                 Console.WriteLine("Order created. Order receipt:");
                                 Current.CreateOrder(NewOrder);
-                                Current.UpdateInventory(store.City, currentAnimal, (Quant * -1));
+                                Current.UpdateInventory(store.City, currentAnimal, Quant * -1);
                                 NewOrder.GetOrderInfo();
+                                Current.GetStore(store.City);
                             }
                             catch(Exception)
                             {
-                                Console.WriteLine($"Not enough {currentAnimal.Name} in stock.");
+                                Console.WriteLine($"Too many {currentAnimal.Name}(s) in order.");
                                 OrderInput(store);
                             }
                         }
-                        catch(Exception)
+                        catch(NullReferenceException)
                         {
                             Console.WriteLine($"{NewOrder.Animal.Name} not found in inventory.");
                             OrderInput(store);
                         };
                     }
-                    catch (Exception)
+                    catch (NullReferenceException)
                     {
                         Console.WriteLine($"Error. Could not find {input}");
                         OrderInput(store);

@@ -71,8 +71,8 @@ namespace Aquarium.DataModel
                 entity.ToTable("Orders", "Aquarium");
 
                 entity.Property(e => e.Date)
-                    .HasColumnType("date")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime2")
+                    .HasDefaultValueSql("(getdatetime())");
 
                 entity.Property(e => e.Total).HasColumnType("smallmoney");
 

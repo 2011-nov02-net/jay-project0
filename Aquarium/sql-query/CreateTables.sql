@@ -27,7 +27,7 @@ create table Aquarium.Customer (
 	CustomerId int not null primary key identity(1, 1),
 	FirstName nvarchar(30) not null,
 	LastName nvarchar(30) not null,
-	Email nvarchar(100)
+	Email nvarchar(100) not null unique
 );
 go
 
@@ -37,7 +37,7 @@ create table Aquarium.Orders (
 		foreign key references Aquarium.Store(StoreId) on delete cascade on update cascade,
 	CustomerId int not null 
 		foreign key references Aquarium.Customer(CustomerId) on delete cascade on update cascade,
-	Date date not null,
+	Date datetime2 not null,
 	Quantity int not null,
 	Total smallmoney not null
 );
