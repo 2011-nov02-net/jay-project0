@@ -141,23 +141,32 @@ namespace Aquarium.ConsoleApp
                     }
                     catch (NullReferenceException)
                     {
-                        Console.WriteLine($"Email input {input} was not found in our database. Please create a new customer.");
+                        Console.WriteLine($"Email input {input} was not found in our database.");
                         CustomerInput(store);
                     }
                     break;
                 case "2":
-                    Console.WriteLine("Create a new customer. Please input new customer's first name");
                     var newCust = new Library.Customer();
+                    Console.WriteLine("Creating a new customer. Please input new customer's E-mail address.");
                     input = Console.ReadLine();
-                    newCust.FirstName = input;
-                    Console.WriteLine("Please input new customer's last name");
-                    var input2 = Console.ReadLine();
-                    newCust.LastName = input2;
-                    Console.WriteLine("Please input new customer's E-mail address.");
-                    var input3 = Console.ReadLine();
-                    newCust.Email = input3;
+                    try
+                    {
+                        newCust.Email = input;
+                        Console.WriteLine("Please input new customer's first name.");
+                        string input2 = Console.ReadLine();
+                        newCust.FirstName = input2;
+                        Console.WriteLine("Please input new customer's last name.");
+                        string input3 = Console.ReadLine();
+                        newCust.LastName = input3;
+                        Current.CreateCustomer(newCust);
+
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine($"Email: {newCust.Email} already exists in our database. Please use another email.");
+                        CustomerInput(store);
+                    }
                     Console.WriteLine($"Customer has been created with these details:");
-                    Current.CreateCustomer(newCust);
                     newCust.GetCustomerInfo();
                     break;
                 case "3":
@@ -174,6 +183,7 @@ namespace Aquarium.ConsoleApp
                     catch (NullReferenceException)
                     {
                         Console.WriteLine($"Could not find email.");
+                        CustomerInput(store);
                     }
                     break;
                 default:
