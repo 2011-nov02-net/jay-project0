@@ -287,12 +287,18 @@ namespace Aquarium.ConsoleApp
                         OrderInput(store);
                     };
                     var currentAnimal = Current.GetAnimalByName(animalNameInput);
-                    Console.WriteLine($"How many {currentAnimal.Name}s for purchase?");
-                    var QuantityInput = Console.ReadLine();
                     try
                     {
+                        Console.WriteLine($"How many {currentAnimal.Name}s for purchase?");
+                        var QuantityInput = Console.ReadLine();
                         var Quant = Int32.Parse(QuantityInput);
                         store.InInventory(currentAnimal);
+                        while(!store.RemoveFromInventory(currentAnimal, Quant))
+                        {
+                            Console.WriteLine($"Not enough {currentAnimal.Name} in store inventory.");
+                            QuantityInput = Console.ReadLine();
+                            Quant = Int32.Parse(QuantityInput);
+                        }
                         NewOrder.Animal = currentAnimal;
                         NewOrder.Quantity = Quant;
                         NewOrder.StoreId = store.StoreId;

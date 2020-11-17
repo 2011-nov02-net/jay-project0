@@ -29,17 +29,16 @@ namespace Aquarium.Library
         }
         public bool RemoveFromInventory(Animal animal, int quantity)
         {
-            foreach(var inv in Inventory)
+            foreach(KeyValuePair<Library.Animal, int> inv in Inventory)
             {
-                if (inv.Key == animal){
+                if (inv.Key.Name == animal.Name){
                     if (quantity < inv.Value) {
-                        Inventory[animal] = Inventory[animal] - quantity;
                         return true;
                     }
                     else return false;
                 }
-            }
-            return true;
+            }           
+            return false;
         }
         public bool InInventory(Animal animal)
         {
