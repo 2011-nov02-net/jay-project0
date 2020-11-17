@@ -14,6 +14,8 @@ namespace Aquarium.DataModel
         void AddToCustomerDb(Library.Customer customer);
         void UpdateCustomerDb(Library.Customer customer);
         Library.Customer GetCustomerByEmail(string email);
+        List<Library.Customer> GetCustomerByName(string first, string last);
+        Library.Customer GetCustomerById(int id);
         List<Library.Order> GetCustOrders(Library.Customer customer);
         List<Library.Order> GetStoreOrders(Library.Store store);
         Library.Order GetOrderById(int id);

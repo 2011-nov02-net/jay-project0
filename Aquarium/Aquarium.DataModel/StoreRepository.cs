@@ -132,6 +132,34 @@ namespace Aquarium.DataModel
                 };
             return appCust;
         }
+        public List<Library.Customer> GetCustomerByName(string first, string last)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbCust = context.Customers
+                .Where(c => c.FirstName == first)
+                .Where(c => c.LastName == last)
+                .ToList();
+                var appCust = new List<Library.Customer>();
+                foreach (var cust in dbCust) {
+                    appCust.Add(GetCustomerById(cust.CustomerId));
+                }
+            return appCust;
+        }
+        public Library.Customer GetCustomerById (int id)
+        {
+            using var context = new AquariumContext(_contextOptions);
+            var dbCust = context.Customers
+                .Where(c => c.CustomerId == id)
+                .FirstOrDefault();
+            var newCust = new Library.Customer()
+            {
+                CustomerId = dbCust.CustomerId,
+                LastName = dbCust.LastName,
+                FirstName = dbCust.FirstName,
+                Email = dbCust.Email
+            };
+            return newCust;
+        }
         // Get orders from the database
         public List<Library.Order> GetCustOrders(Library.Customer customer)
         {

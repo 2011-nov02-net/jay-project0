@@ -45,6 +45,10 @@ namespace Aquarium.ConsoleApp
         {
             return StoreRepo.GetCustomerByEmail(email);
         }
+        public List<Library.Customer> GetCustomerByName(string first, string last) 
+        {
+            return StoreRepo.GetCustomerByName(first, last);
+        }
         public Library.Animal GetAnimalByName(string name)
         {
             return StoreRepo.GetAnimalByName(name);

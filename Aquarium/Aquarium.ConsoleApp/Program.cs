@@ -125,9 +125,10 @@ namespace Aquarium.ConsoleApp
         public static void CustomerInput(Library.Store store)
         {
             Console.WriteLine("You've accessed the customer menu. Please pick one of the following options");
-            Console.WriteLine("(1) Find customer by name");
-            Console.WriteLine("(2) Create a new customer");
-            Console.WriteLine("(3) Modify an existing customer");
+            Console.WriteLine("(1) Find customer by email");
+            Console.WriteLine("(2) Find customer by name");
+            Console.WriteLine("(3) Create a new customer");
+            Console.WriteLine("(4) Modify an existing customer");
             var input = Console.ReadLine();
             switch (input)
             {
@@ -146,6 +147,26 @@ namespace Aquarium.ConsoleApp
                     }
                     break;
                 case "2":
+                    Console.WriteLine("Find customer by name. Please input the customer's first name");
+                    var firstName = Console.ReadLine();
+                    Console.WriteLine("Find customer by name. Please input the customer's last name");
+                    var lastName = Console.ReadLine();
+                    try
+                    {
+                        var ExistingCust = Current.GetCustomerByName(firstName, lastName);
+                        Console.WriteLine($"{ExistingCust.Count} customer(s) found");
+                        foreach(var cust in ExistingCust)
+                        {
+                            cust.GetCustomerInfo();
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        Console.WriteLine($"Customer {firstName} {lastName} was not found in our database.");
+                        CustomerInput(store);
+                    }
+                    break;
+                case "3":
                     var newCust = new Library.Customer();
                     Console.WriteLine("Creating a new customer. Please input new customer's E-mail address.");
                     input = Console.ReadLine();
@@ -154,9 +175,19 @@ namespace Aquarium.ConsoleApp
                         newCust.Email = input;
                         Console.WriteLine("Please input new customer's first name.");
                         string input2 = Console.ReadLine();
+                        while (string.IsNullOrEmpty(input2))
+                        {
+                            Console.WriteLine("Name can't be empty! Input your name once more");
+                            input2 = Console.ReadLine();
+                        }
                         newCust.FirstName = input2;
                         Console.WriteLine("Please input new customer's last name.");
                         string input3 = Console.ReadLine();
+                        while (string.IsNullOrEmpty(input3))
+                        {
+                            Console.WriteLine("Name can't be empty! Input your name once more");
+                            input3 = Console.ReadLine();
+                        }
                         newCust.LastName = input3;
                         Current.CreateCustomer(newCust);
 
@@ -169,7 +200,7 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine($"Customer has been created with these details:");
                     newCust.GetCustomerInfo();
                     break;
-                case "3":
+                case "4":
                     Console.WriteLine("Modify an existing customer. Please input the customer's email");
                     input = Console.ReadLine();
                     try
@@ -275,7 +306,7 @@ namespace Aquarium.ConsoleApp
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine($"Too many {currentAnimal.Name}(s) in order.");
+                        Console.WriteLine($"Please input a valid number.");
                         OrderInput(store);
                     }
                     break;
