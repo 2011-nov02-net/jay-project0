@@ -27,21 +27,18 @@ namespace Aquarium.Library
                 Console.WriteLine($"{inv.Key.Name} - {inv.Value}");
             }
         }
-        public bool RemoveFromInventory(Animal animal, int stock)
+        public void RemoveFromInventory(Animal animal, int quantity)
         {
-            if (stock > Inventory[animal]) {
-                    return false;
+            foreach (var inv in Inventory)
+            {
+                if (animal == inv.Key && quantity > inv.Value) {
+                Inventory[animal] = Inventory[animal] - quantity;
+                }
             }
-            Inventory[animal] -= stock;
-            return true;
         }
         public bool InInventory(Animal animal)
         {
-            if (!(Inventory.ContainsKey(animal)))
-            {
-                return false;
-            }
-            return true;
+            return Inventory.ContainsKey(animal);
         }
     }
 }

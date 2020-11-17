@@ -14,7 +14,7 @@ namespace Aquarium.Library
         public DateTime Date { get; set; }
 
         public void GetTotal(){
-            decimal result =  Animal.Price * Quantity;
+            int result = Convert.ToInt32(Animal.Price) * Quantity;
             Total = Convert.ToDecimal(result);
         }
         public void GetOrderInfo(){

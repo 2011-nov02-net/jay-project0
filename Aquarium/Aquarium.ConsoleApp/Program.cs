@@ -226,41 +226,45 @@ namespace Aquarium.ConsoleApp
                     try
                     {
                         var NewOrder = new Library.Order();
-                        NewOrder.Customer = Current.GetCustomerByEmail(input); // Need to check to see if email exists
+                        NewOrder.Customer = Current.GetCustomerByEmail(input);
                         Console.WriteLine($"Input name of the animal for this purchase. Our store location at ({store.City}) has:");
                         store.GetStoreInventory();
-                        var animalNameInput = Console.ReadLine(); // Need to check if animal name exists. If it does, continue
-                        NewOrder.Animal = Current.GetAnimalByName(animalNameInput);
-                        Console.WriteLine($"How many {animalNameInput}s for purchase?");
-                        var QuantityInput = Console.ReadLine(); // Need to check if store has enough animals in inventory
-                        var Quant = Int32.Parse(QuantityInput);
-                        if (store.InInventory(NewOrder.Animal))
+                        var animalNameInput = Console.ReadLine();
+                        try
                         {
-                            if (store.RemoveFromInventory(NewOrder.Animal, Quant))
+                            var currentAnimal = Current.GetAnimalByName(animalNameInput);
+                            Console.WriteLine($"How many {currentAnimal.Name}s for purchase?");
+                            var QuantityInput = Console.ReadLine();
+                            var Quant = Int32.Parse(QuantityInput);
+                            store.InInventory(currentAnimal);
+                            try 
                             {
+                                store.RemoveFromInventory(currentAnimal, Quant);
+                                NewOrder.Animal = currentAnimal;
                                 NewOrder.Quantity = Quant;
                                 NewOrder.StoreId = store.StoreId;
                                 NewOrder.Date = DateTime.Now;
                                 NewOrder.GetTotal();
                                 Console.WriteLine("Order created. Order receipt:");
                                 Current.CreateOrder(NewOrder);
+                                Current.UpdateInventory(store.City, currentAnimal, Quant);
                                 NewOrder.GetOrderInfo();
                             }
-                            else
+                            catch(Exception)
                             {
-                                Console.WriteLine($"Not enough {NewOrder.Animal.Name} in stock.");
+                                Console.WriteLine($"Not enough {currentAnimal.Name} in stock.");
                                 OrderInput(store);
                             }
                         }
-                        else
+                        catch(Exception)
                         {
                             Console.WriteLine($"{NewOrder.Animal.Name} not found in inventory.");
                             OrderInput(store);
                         };
                     }
-                    catch (NullReferenceException)
+                    catch (Exception)
                     {
-                        Console.WriteLine("Error");
+                        Console.WriteLine($"Error. Could not find {input}");
                         OrderInput(store);
                     }
                     break;
