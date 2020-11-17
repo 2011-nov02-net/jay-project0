@@ -21,6 +21,12 @@ namespace Aquarium.Library
                 Inventory.Add(animal, stock);
             }
         }
+        public void GetStoreInventory() {
+            foreach (var inv in Inventory)
+            {
+                Console.WriteLine($"{inv.Key.Name} - {inv.Value}");
+            }
+        }
         // public void RemoveFromInventory(string name, int stock)
         // {
         //     if (stock > Inventory[name]) {

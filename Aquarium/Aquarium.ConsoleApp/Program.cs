@@ -135,17 +135,11 @@ namespace Aquarium.ConsoleApp
             {
                 case "1":
                     Console.WriteLine($"Searching for all animals at store location ({store.City}).");
-                    foreach (var inv in store.Inventory)
-                    {
-                        Console.WriteLine($"{inv.Key.Name} - {inv.Value}");
-                    }
+                    store.GetStoreInventory();
                     break;
                 case "2":
                     Console.WriteLine($"Updating current store inventory. Here is a list of all animals and their quantity at store location ({store.City}). Please type name of animal.");
-                    foreach(var animal in store.Inventory)
-                    {
-                        Console.WriteLine($"Name: {animal.Key.Name} | Quantity: {animal.Value}");
-                    }
+                    store.GetStoreInventory();
                     input = Console.ReadLine();
                     var CurrentAnimal = Current.GetAnimalByName(input);
                     Console.WriteLine($"How many {CurrentAnimal}s would you like to insert?");
@@ -161,13 +155,7 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine($"Found {StoreOrders.Count} result(s):");
                     foreach (var order in StoreOrders)
                     {
-                        Console.WriteLine($"Order ID: {order.OrderId}");
-                        Console.WriteLine($"    Customer Email: {order.Customer.Email}");
-                        Console.WriteLine($"    Customer ID: {order.Customer.CustomerId}");
-                        Console.WriteLine($"    Animal: {order.Animal.Name}");
-                        Console.WriteLine($"    Quantity: {order.Quantity}");
-                        Console.WriteLine($"    Total: {order.Total}");
-                        Console.WriteLine($"    Date: {order.Date}");
+                        order.GetOrderInfo();
                     }
                     break;
                 default:
@@ -186,23 +174,22 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine("Find customer by name. Please input the customer's email");
                     input = Console.ReadLine();
                     var ExistingCust = Current.GetCustomerByEmail(input);
-                    Console.WriteLine($"First name: {ExistingCust.FirstName}");
-                    Console.WriteLine($"Last name: {ExistingCust.LastName}");
-                    Console.WriteLine($"Email Address: {ExistingCust.Email}");
+                    ExistingCust.GetCustomerInfo();
                     break;
                 case "2":
-                    Console.Write("Create a new customer. Please input new customer's first name");
+                    Console.WriteLine("Create a new customer. Please input new customer's first name");
                     var newCust = new Library.Customer();
-                    newCust.FirstName = Console.ReadLine();
-                    Console.Write("Please input new customer's last name");
-                    newCust.LastName = Console.ReadLine();
+                    input = Console.ReadLine();
+                    newCust.FirstName = input;
+                    Console.WriteLine("Please input new customer's last name");
+                    var input2 = Console.ReadLine();
+                    newCust.LastName = input2;
                     Console.WriteLine("Please input new customer's E-mail address.");
-                    newCust.Email = Console.ReadLine();
+                    var input3 = Console.ReadLine();
+                    newCust.Email = input3;
                     Console.WriteLine($"Customer has been created with these details:");
-                    Console.WriteLine($"First name: {newCust.FirstName}");
-                    Console.WriteLine($"Last name: {newCust.LastName}");
-                    Console.WriteLine($"Email: {newCust.Email}");
                     Current.CreateCustomer(newCust);
+                    newCust.GetCustomerInfo();
                     break;
                 case "3":
                     Console.WriteLine("Modify an existing customer. Please input the customer's email");
@@ -219,7 +206,7 @@ namespace Aquarium.ConsoleApp
                     break;
             }
         }
-        public static object OrderInput(Library.Store store)
+        public static void OrderInput(Library.Store store)
         {
             var input = Console.ReadLine();
             switch (input)
@@ -230,15 +217,9 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine($"Found {StoreOrders.Count} result(s):");
                     foreach(var order in StoreOrders)
                     {
-                        Console.WriteLine($"Order ID: {order.OrderId}");
-                        Console.WriteLine($"    Customer Email: {order.Customer.Email}");
-                        Console.WriteLine($"    Customer ID: {order.Customer.CustomerId}");
-                        Console.WriteLine($"    Animal: {order.Animal.Name}");
-                        Console.WriteLine($"    Quantity: {order.Quantity}");
-                        Console.WriteLine($"    Total: {order.Total}");
-                        Console.WriteLine($"    Date: {order.Date}");
+                        order.GetOrderInfo();
                     }
-                    return StoreOrders;
+                    break;
                 case "2":
                     Console.WriteLine("Searching for all orders made by a specific customer. Please input customer's email");
                     input = Console.ReadLine();
@@ -248,44 +229,32 @@ namespace Aquarium.ConsoleApp
                     Console.WriteLine($"Found {CustOrders.Count} result(s):");
                     foreach (var order in CustOrders)
                     {
-                        Console.WriteLine($"Order ID: {order.OrderId}");
-                        Console.WriteLine($"    Customer Email: {order.Customer.Email}");
-                        Console.WriteLine($"    Customer ID: {order.Customer.CustomerId}");
-                        Console.WriteLine($"    Animal: {order.Animal.Name}");
-                        Console.WriteLine($"    Quantity: {order.Quantity}");
-                        Console.WriteLine($"    Total: {order.Total}");
-                        Console.WriteLine($"    Date: {order.Date}");
+                        order.GetOrderInfo();
                     }
-                    return CustOrders;
+                    break;
                 case "3":
                     Console.WriteLine($"Creating a new order in store location ({store.City}). Please input customer's email");
                     input = Console.ReadLine();
                     var NewOrder = new Library.Order();
                     NewOrder.Customer = Current.GetCustomerByEmail(input);
                     Console.WriteLine($"Input name of the animal for this purchase. Our store location at ({store.City}) has:");
-                    foreach(var animal in store.Inventory)
-                    {
-                        Console.WriteLine($"Animal: {animal.Key.Name}");
-                        Console.WriteLine($"Animal: {animal.Value}");
-                    }
+                    store.GetStoreInventory();
                     var animalNameInput = Console.ReadLine(); // Need to check if animal name exists
                     NewOrder.Animal = Current.GetAnimalByName(animalNameInput);
                     Console.WriteLine($"How many {animalNameInput}s for purchase?");
                     var QuantityInput = Console.ReadLine(); // Need to check if store has enough animals in inventory
                     NewOrder.Quantity = Int32.Parse(QuantityInput);
+                    NewOrder.StoreId = store.StoreId;
                     NewOrder.Date = DateTime.Now;
                     NewOrder.GetTotal();
-                    Console.WriteLine("Order created. Final order information is as follows:");
-                    Console.WriteLine($"    Customer: {NewOrder.Customer.FirstName}, {NewOrder.Customer.LastName}");
-                    Console.WriteLine($"    Animal: {NewOrder.Animal.Name}");
-                    Console.WriteLine($"    Quantity: {NewOrder.Quantity}");
-                    Console.WriteLine($"    Total: {NewOrder.Total}");
-                    Console.WriteLine($"    Date: {NewOrder.Date}");
+                    Console.WriteLine("Order created. Order receipt:");
                     Current.CreateOrder(NewOrder);
-                    return NewOrder;
+                    NewOrder.GetOrderInfo();
+                    break;
                 default:
                     Console.WriteLine("Please try again.");
-                    return OrderInput(store);
+                    OrderInput(store);
+                    break;
             }
         }
     }
