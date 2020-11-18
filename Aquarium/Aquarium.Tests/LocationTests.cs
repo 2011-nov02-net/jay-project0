@@ -1,6 +1,8 @@
 using System;
 using Xunit;
 using Aquarium.Library;
+using Aquarium.ConsoleApp;
+using Aquarium.DataModel;
 using System.Collections.Generic;
 
 namespace Aquarium.Tests
@@ -11,10 +13,10 @@ namespace Aquarium.Tests
         public void AddToInventoryTest()
         {
             // Arrange
-            var newAnimal = new Animal();
+            var newAnimal = new Library.Animal();
             newAnimal.Name = "whale";
-            var nyc = new Store();
-            nyc.Inventory = new Dictionary<Animal, int>();
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
             // Act
             nyc.AddToInventory(newAnimal, 5);
             // Assert
@@ -25,10 +27,10 @@ namespace Aquarium.Tests
         public void AddToInventoryTest2()
         {
             // Arrange
-            var penguin = new Animal();
+            var penguin = new Library.Animal();
             penguin.Name = "penguin";
-            var nyc = new Store();
-            nyc.Inventory = new Dictionary<Animal, int>();
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
             nyc.AddToInventory(penguin, 1555);
             // Act
             var actual = nyc.Inventory[penguin];
@@ -38,10 +40,10 @@ namespace Aquarium.Tests
         [Fact]
         public void RemoveFromInventoryTest()
         {
-            var penguin = new Animal();
+            var penguin = new Library.Animal();
             penguin.Name = "penguin";
-            var nyc = new Store();
-            nyc.Inventory = new Dictionary<Animal, int>();
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
             nyc.AddToInventory(penguin, 20);
             var actual = nyc.RemoveFromInventory(penguin, 10);
             Assert.True(actual == true);
@@ -49,10 +51,10 @@ namespace Aquarium.Tests
         [Fact]
         public void RemoveFromInventoryTest2()
         {
-            var penguin = new Animal();
+            var penguin = new Library.Animal();
             penguin.Name = "penguin";
-            var nyc = new Store();
-            nyc.Inventory = new Dictionary<Animal, int>();
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
             nyc.AddToInventory(penguin, 20);
             var actual = nyc.RemoveFromInventory(penguin, 100);
             Assert.True(actual == false);
@@ -60,10 +62,10 @@ namespace Aquarium.Tests
         [Fact]
         public void InventoryContainsTest()
         {
-            var shark = new Animal();
+            var shark = new Library.Animal();
             shark.Name = "shark";
-            var nyc = new Store();
-            nyc.Inventory = new Dictionary<Animal, int>();
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
             nyc.AddToInventory(shark, 20);
             var actual = nyc.InInventory(shark);
             Assert.True(actual == true);
@@ -71,12 +73,12 @@ namespace Aquarium.Tests
         [Fact]
         public void InventoryContainsTest2()
         {
-            var shark = new Animal();
+            var shark = new Library.Animal();
             shark.Name = "shark";
-            var squirrel = new Animal();
+            var squirrel = new Library.Animal();
             squirrel.Name = "squirrel";
-            var nyc = new Store();
-            nyc.Inventory = new Dictionary<Animal, int>();
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
             nyc.AddToInventory(shark, 20);
             var actual = nyc.InInventory(squirrel);
             Assert.True(actual == false);
@@ -84,12 +86,45 @@ namespace Aquarium.Tests
         [Fact]
         public void InventoryContainsTest0Quant()
         {
-            var shark = new Animal();
+            var shark = new Library.Animal();
             shark.Name = "shark";
-            var nyc = new Store();
-            nyc.Inventory = new Dictionary<Animal, int>();
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
             nyc.AddToInventory(shark, 0);
             var actual = nyc.InInventory(shark);
+            Assert.True(actual == false);
+        }
+        [Fact]
+        public void InventoryTestNegativeQuant()
+        {
+            var shark = new Library.Animal();
+            shark.Name = "shark";
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
+            nyc.AddToInventory(shark, -10);
+            var actual = nyc.InInventory(shark);
+            Assert.True(actual == false);
+        }
+        [Fact]
+        public void AddInventoryTestFail()
+        {
+            var shark = new Library.Animal();
+            shark.Name = "shark";
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
+            nyc.AddToInventory(shark, 0);
+            var actual = nyc.InInventory(shark);
+            Assert.True(actual == false);
+        }
+        [Fact]
+        public void RemoveFromInventoryTestFail2()
+        {
+            var penguin = new Library.Animal();
+            penguin.Name = "penguin";
+            var nyc = new Library.Store();
+            nyc.Inventory = new Dictionary<Library.Animal, int>();
+            nyc.AddToInventory(penguin, 20);
+            var actual = nyc.RemoveFromInventory(penguin, 150);
             Assert.True(actual == false);
         }
     }
