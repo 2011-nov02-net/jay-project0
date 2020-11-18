@@ -32,17 +32,17 @@ namespace Aquarium.Library
             foreach(KeyValuePair<Library.Animal, int> inv in Inventory)
             {
                 if (inv.Key.Name == animal.Name){
-                    if (quantity < inv.Value) {
+                    if (quantity <= inv.Value) {
                         return true;
                     }
                     else return false;
                 }
-            }           
+            }
             return false;
         }
         public bool InInventory(Animal animal)
         {
-            return Inventory.ContainsKey(animal);
+            return (Inventory.ContainsKey(animal) && Inventory[animal] > 0);
         }
     }
 }

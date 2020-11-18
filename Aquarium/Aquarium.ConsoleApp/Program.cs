@@ -304,11 +304,19 @@ namespace Aquarium.ConsoleApp
                         NewOrder.StoreId = store.StoreId;
                         NewOrder.Date = DateTime.Now;
                         NewOrder.GetTotal();
-                        Current.CreateOrder(NewOrder);
-                        Current.UpdateInventory(store.City, currentAnimal, Quant * -1);
-                        Console.WriteLine("Order created. Order receipt:");
-                        NewOrder.GetOrderInfo();
-                        Current.GetStore(store.City);
+                        if(NewOrder.Total <= 0)
+                        {
+                            Console.WriteLine("Order failed. Cannot be a value of 0 or lower.");
+                            Current.GetStore(store.City);
+                        }
+                        else
+                        {
+                            Current.CreateOrder(NewOrder);
+                            Current.UpdateInventory(store.City, currentAnimal, Quant * -1);
+                            Console.WriteLine("Order created. Order receipt:");
+                            NewOrder.GetOrderInfo();
+                            Current.GetStore(store.City);
+                        }
                     }
                     catch (Exception)
                     {
