@@ -42,9 +42,15 @@ namespace Aquarium.Library
             }
             return false;
         }
-        public bool InInventory(Animal animal)
+         public bool InInventory(Animal animal)
         {
-            return (Inventory.ContainsKey(animal) && Inventory[animal] > 0);
+            foreach(KeyValuePair<Library.Animal, int> inv in Inventory)
+            {
+                if (inv.Key.Name == animal.Name){
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

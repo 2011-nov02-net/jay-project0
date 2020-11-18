@@ -119,7 +119,6 @@ namespace Aquarium.ConsoleApp
                     {
                         Current.CreateInventory(store.City, CurrentAnimal, quantityInt);
                     }
-                    store.GetStoreInventory();
                     Console.WriteLine($"{CurrentAnimal.Name} with a quantity of {quantityInt} has been imported.");
                     break;
                 case "3":
