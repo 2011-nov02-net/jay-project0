@@ -303,7 +303,7 @@ namespace Aquarium.ConsoleApp
                     var currentAnimal = Current.GetAnimalByName(animalNameInput);
                     try
                     {
-                        Console.WriteLine($"How many {currentAnimal.Name}s for purchase?");
+                        Console.WriteLine($"How many {currentAnimal.Name}(s) for purchase?");
                         var QuantityInput = Console.ReadLine();
                         var Quant = Int32.Parse(QuantityInput);
                         store.InInventory(currentAnimal);
@@ -320,7 +320,7 @@ namespace Aquarium.ConsoleApp
                         if(NewOrder.Total <= 0)
                         {
                             Console.WriteLine("Order failed. Cannot be a value of 0 or lower.");
-                            Current.GetStore(store.City);
+                            store = Current.GetStore(store.City);
                             OrderInput(store);
                         }
                         else
@@ -329,8 +329,7 @@ namespace Aquarium.ConsoleApp
                             Current.UpdateInventory(store.City, currentAnimal, Quant * -1);
                             Console.WriteLine("Order created. Order receipt:");
                             NewOrder.GetOrderInfo();
-                            Current.GetStore(store.City);
-                            OrderInput(store);
+                            store = Current.GetStore(store.City);
                         }
                     }
                     catch (Exception)
