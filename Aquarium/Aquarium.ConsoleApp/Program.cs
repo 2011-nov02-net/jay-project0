@@ -310,8 +310,7 @@ namespace Aquarium.ConsoleApp
                         while(!store.RemoveFromInventory(currentAnimal, Quant))
                         {
                             Console.WriteLine($"Not enough {currentAnimal.Name} in store inventory.");
-                            QuantityInput = Console.ReadLine();
-                            Quant = Int32.Parse(QuantityInput);
+                            OrderInput(store);
                         }
                         NewOrder.Animal = currentAnimal;
                         NewOrder.Quantity = Quant;
@@ -322,6 +321,7 @@ namespace Aquarium.ConsoleApp
                         {
                             Console.WriteLine("Order failed. Cannot be a value of 0 or lower.");
                             Current.GetStore(store.City);
+                            OrderInput(store);
                         }
                         else
                         {
@@ -330,6 +330,7 @@ namespace Aquarium.ConsoleApp
                             Console.WriteLine("Order created. Order receipt:");
                             NewOrder.GetOrderInfo();
                             Current.GetStore(store.City);
+                            OrderInput(store);
                         }
                     }
                     catch (Exception)
