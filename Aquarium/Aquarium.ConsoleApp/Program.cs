@@ -28,7 +28,7 @@ namespace Aquarium.ConsoleApp
                     var CurrentLocation = SetStore(input); // Creates an instance of a store object from the location parameter
                     EmployeeMenu(CurrentLocation); // Menu 1 showing options for store / customers / orders
                     var input2 = Console.ReadLine();
-                    MenuInput(input, CurrentLocation); // Choose from a submenu from Menu 1
+                    MenuInput(input2, CurrentLocation); // Choose from a submenu from Menu 1
                     Console.WriteLine("Going back to the main menu.");
                 }
             }
@@ -50,6 +50,7 @@ namespace Aquarium.ConsoleApp
                     return Current.GetStore("Seoul");
                 default:
                     Console.WriteLine("Please try again.");
+                    input = Console.ReadLine();
                     return SetStore(input);
             }
         }
@@ -162,7 +163,7 @@ namespace Aquarium.ConsoleApp
                     {
                         var ExistingCust = Current.GetCustomerByName(firstName, lastName);
                         Console.WriteLine($"{ExistingCust.Count} customer(s) found");
-                        foreach(var cust in ExistingCust)
+                        foreach (var cust in ExistingCust)
                         {
                             cust.GetCustomerInfo();
                         }
@@ -177,35 +178,34 @@ namespace Aquarium.ConsoleApp
                     var newCust = new Library.Customer();
                     Console.WriteLine("Creating a new customer. Please input new customer's E-mail address.");
                     input = Console.ReadLine();
-                    try
-                    {
-                        newCust.Email = input;
-                        Console.WriteLine("Please input new customer's first name.");
-                        string input2 = Console.ReadLine();
-                        while (string.IsNullOrEmpty(input2))
-                        {
-                            Console.WriteLine("Name can't be empty! Input your name once more");
-                            input2 = Console.ReadLine();
-                        }
-                        newCust.FirstName = input2;
-                        Console.WriteLine("Please input new customer's last name.");
-                        string input3 = Console.ReadLine();
-                        while (string.IsNullOrEmpty(input3))
-                        {
-                            Console.WriteLine("Name can't be empty! Input your name once more");
-                            input3 = Console.ReadLine();
-                        }
-                        newCust.LastName = input3;
-                        Current.CreateCustomer(newCust);
+                    newCust.Email = input;
+                    try {
 
-                    }
-                    catch (Exception)
-                    {
+                        Current.GetCustomerByEmail(input);
                         Console.WriteLine($"Email: {newCust.Email} already exists in our database. Please use another email.");
                         CustomerInput(store);
                     }
+                    catch { 
+                    Console.WriteLine("Please input new customer's first name.");
+                    string input2 = Console.ReadLine();
+                    while (string.IsNullOrEmpty(input2))
+                    {
+                        Console.WriteLine("Name can't be empty! Input your name once more");
+                        input2 = Console.ReadLine();
+                    }
+                    newCust.FirstName = input2;
+                    Console.WriteLine("Please input new customer's last name.");
+                    string input3 = Console.ReadLine();
+                    while (string.IsNullOrEmpty(input3))
+                    {
+                        Console.WriteLine("Name can't be empty! Input your name once more");
+                        input3 = Console.ReadLine();
+                    }
+                    newCust.LastName = input3;
+                    Current.CreateCustomer(newCust);
                     Console.WriteLine($"Customer has been created with these details:");
                     newCust.GetCustomerInfo();
+                    }
                     break;
                 case "4":
                     Console.WriteLine("Modify an existing customer. Please input the customer's email");
