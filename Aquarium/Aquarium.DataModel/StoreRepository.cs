@@ -51,24 +51,14 @@ namespace Aquarium.DataModel
         }
         public void UpdateInventoryDb(string city, Library.Animal animal, int stock)
         {
-            // Probably not needed anymore since implementation of the InInventory method in store library
             using var context = new AquariumContext(_contextOptions);
-            bool animalExist = context.Animals
-                .Any(a => a.Name == animal.Name);
-            if(!animalExist)
-            {
-                Console.WriteLine("Animal does not exist in database. Please update the animal database");
-            }
-            else
-            {
-                var currentStore = GetStoreByCity(city);
-                var dbInventory = context.Inventories
-                    .Include(i => i.Animal)
-                    .Where(i => i.StoreId == currentStore.StoreId && i.Animal.Name == animal.Name)
-                    .FirstOrDefault();
-                dbInventory.Quantity += stock;
-                context.SaveChanges();
-            }
+            var currentStore = GetStoreByCity(city);
+            var dbInventory = context.Inventories
+                .Include(i => i.Animal)
+                .Where(i => i.StoreId == currentStore.StoreId && i.Animal.Name == animal.Name)
+                .FirstOrDefault();
+            dbInventory.Quantity += stock;
+            context.SaveChanges();
         }
         public void AddToInventoryDb(string city, Library.Animal animal, int stock)
         {

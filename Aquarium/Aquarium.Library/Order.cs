@@ -21,6 +21,7 @@ namespace Aquarium.Library
             Console.WriteLine($"ORDER:");
             Console.WriteLine($"    Customer Email: {Customer.Email}");
             Console.WriteLine($"    Animal: {Animal.Name}");
+            Console.WriteLine($"    Price: {String.Format("{0:C}", Animal.Price)}");
             Console.WriteLine($"    Quantity: {Quantity}");
             Console.WriteLine($"    Total: ${Total}");
             Console.WriteLine($"    Date: {Date}");

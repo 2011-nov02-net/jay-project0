@@ -100,19 +100,27 @@ namespace Aquarium.ConsoleApp
                     input = Console.ReadLine();
                     try
                     {
-                        var CurrentAnimal = Current.GetAnimalByName(input);
-                        Console.WriteLine($"How many {CurrentAnimal.Name}s would you like to insert?");
-                        var input2 = Console.ReadLine();
-                        var quantityInt = Int32.Parse(input2);
-                        store.AddToInventory(CurrentAnimal, quantityInt);
-                        Current.UpdateInventory(store.City, CurrentAnimal, quantityInt);
-                        Console.WriteLine($"{CurrentAnimal.Name} with a quantity of {input2} has been inserted.");
+                        var CurrentAnimalTry = Current.GetAnimalByName(input);
                     }
                     catch (NullReferenceException)
                     {
                         Console.WriteLine($"Animal {input} was not found in our database.");
                         StoreInput(store);
                     }
+                    var CurrentAnimal = Current.GetAnimalByName(input);
+                    Console.WriteLine($"How many {CurrentAnimal.Name}s would you like to import?");
+                    var input2 = Console.ReadLine();
+                    var quantityInt = Int32.Parse(input2);
+                    if(store.InInventory(CurrentAnimal))
+                    {
+                        Current.UpdateInventory(store.City, CurrentAnimal, quantityInt);
+                    }
+                    else
+                    {
+                        Current.CreateInventory(store.City, CurrentAnimal, quantityInt);
+                    }
+                    store.GetStoreInventory();
+                    Console.WriteLine($"{CurrentAnimal.Name} with a quantity of {quantityInt} has been imported.");
                     break;
                 case "3":
                     Console.WriteLine($"Searching for all orders made at store location ({store.City}).");

@@ -25,7 +25,7 @@ namespace Aquarium.Library
         public void GetStoreInventory() {
             foreach (var inv in Inventory)
             {
-                Console.WriteLine($"{inv.Key.Name} - {inv.Value}");
+                Console.WriteLine($"{inv.Key.Name} - {String.Format("{0:C}", inv.Key.Price)} - {inv.Value}");
             }
         }
         // check  inventory for existing animal and whether quantity is possible
