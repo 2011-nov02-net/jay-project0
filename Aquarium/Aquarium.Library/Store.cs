@@ -10,6 +10,7 @@ namespace Aquarium.Library
         public string City { get; set; }
         public string Country { get; set; }
         public Dictionary<Animal, int> Inventory { get; set; }
+        // Checks if animal exists in current inventory then adds the quantity
         public void AddToInventory(Animal animal, int stock)
         {
             if (InInventory(animal))
@@ -27,6 +28,7 @@ namespace Aquarium.Library
                 Console.WriteLine($"{inv.Key.Name} - {inv.Value}");
             }
         }
+        // check  inventory for existing animal and whether quantity is possible
         public bool RemoveFromInventory(Animal animal, int quantity)
         {
             foreach(KeyValuePair<Library.Animal, int> inv in Inventory)

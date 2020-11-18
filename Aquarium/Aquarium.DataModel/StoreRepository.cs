@@ -27,7 +27,7 @@ namespace Aquarium.DataModel
                 Country = dbStore.Country,
                 Inventory = new Dictionary<Library.Animal, int>()
             };
-            var appInv = GetStoreInventory(appStore); // Seperate method to get a dictionary of animal name and quantity in the inventory
+            var appInv = GetStoreInventory(appStore); // Returns a dictionary with animals and their quantity in the store
             foreach (var thing in appInv)
             {
                 appStore.Inventory.Add(thing.Key, thing.Value);
@@ -51,6 +51,7 @@ namespace Aquarium.DataModel
         }
         public void UpdateInventoryDb(string city, Library.Animal animal, int stock)
         {
+            // Probably not needed anymore since implemtation of the InInventory method in store library
             using var context = new AquariumContext(_contextOptions);
             bool animalExist = context.Animals
                 .Any(a => a.Name == animal.Name);
@@ -145,6 +146,7 @@ namespace Aquarium.DataModel
                 }
             return appCust;
         }
+        // Used to convert entity to C# class
         public Library.Customer GetCustomerById (int id)
         {
             using var context = new AquariumContext(_contextOptions);
@@ -236,6 +238,7 @@ namespace Aquarium.DataModel
             dbOrders.Total = order.Total;
             context.SaveChanges();
         }
+        // Creates a new animal. All animal repository methods are optional
         public void AddToAnimalDb(Library.Animal animal) {
             using var context = new AquariumContext(_contextOptions);
             var newEntry = new DataModel.Animal
