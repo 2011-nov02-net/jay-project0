@@ -27,6 +27,13 @@ insert into Aquarium.Animal (Name, Price)
 	);
 go
 
+insert into Aquarium.Animal (Name, Price)
+	values (
+		'Otter',
+		120.00
+	);
+go
+
 insert into Aquarium.Customer (FirstName, LastName, Email)
 	values (
 		'Mona',
@@ -70,8 +77,8 @@ insert into Aquarium.Inventory (AnimalId, Quantity, StoreId)
 
 insert into Aquarium.Inventory (AnimalId, Quantity, StoreId)
 	values (
-		(select AnimalId from Aquarium.Animal where Name = 'Penguin'),
-		230,
+		(select AnimalId from Aquarium.Animal where Name = ''),
+		500,
 		(select StoreId from Aquarium.Store where City = 'Seoul')
 	);
 go

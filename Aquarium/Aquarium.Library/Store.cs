@@ -34,7 +34,7 @@ namespace Aquarium.Library
             foreach(KeyValuePair<Library.Animal, int> inv in Inventory)
             {
                 if (inv.Key.Name == animal.Name){
-                    if (quantity <= inv.Value) {
+                    if (quantity < inv.Value) {
                         return true;
                     }
                     else return false;
