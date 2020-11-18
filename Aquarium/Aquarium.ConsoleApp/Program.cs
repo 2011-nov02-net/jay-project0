@@ -18,11 +18,19 @@ namespace Aquarium.ConsoleApp
             while (online)
             {
                 LocationMenu(); // Shows all store locations
-                var CurrentLocation = SetStore(); // Creates an instance of a store object from the location parameter
-                EmployeeMenu(CurrentLocation); // Menu 1 showing options for store / customers / orders
                 var input = Console.ReadLine();
-                MenuInput(input, CurrentLocation); // Choose from a submenu from Menu 1
-                Console.WriteLine("Going back to the main menu.");
+                if(input == "x")
+                {
+                    online = false;
+                }
+                else
+                {
+                    var CurrentLocation = SetStore(input); // Creates an instance of a store object from the location parameter
+                    EmployeeMenu(CurrentLocation); // Menu 1 showing options for store / customers / orders
+                    var input2 = Console.ReadLine();
+                    MenuInput(input, CurrentLocation); // Choose from a submenu from Menu 1
+                    Console.WriteLine("Going back to the main menu.");
+                }
             }
         }
         public static void LocationMenu()
@@ -30,11 +38,10 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("Please input store location based on the following options:");
             Console.WriteLine("(1) New York City, USA");
             Console.WriteLine("(2) Seoul, Korea");
-            // Console.WriteLine("(x) Cancel and exit app");
+            Console.WriteLine("(x) Cancel and exit app");
         }
-        public static Library.Store SetStore()
+        public static Library.Store SetStore(string input)
         {
-            var input = Console.ReadLine();
             switch (input)
             {
                 case "1":
@@ -43,7 +50,7 @@ namespace Aquarium.ConsoleApp
                     return Current.GetStore("Seoul");
                 default:
                     Console.WriteLine("Please try again.");
-                    return SetStore();
+                    return SetStore(input);
             }
         }
         public static void EmployeeMenu(Library.Store store)
