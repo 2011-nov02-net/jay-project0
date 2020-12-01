@@ -114,13 +114,13 @@ namespace Aquarium.DataModel
             var dbCust = context.Customers
                 .Where(c => c.Email == email)
                 .FirstOrDefault();
-                var appCust = new Library.Customer()
-                {
+            var appCust = new Library.Customer()
+            {
                 CustomerId = dbCust.CustomerId,
                 LastName = dbCust.LastName,
                 FirstName = dbCust.FirstName,
                 Email = dbCust.Email
-                };
+            };
             return appCust;
         }
         public List<Library.Customer> GetCustomerByName(string first, string last)

@@ -18,7 +18,7 @@ namespace Aquarium.Library
             Total = Convert.ToDecimal(result);
         }
         public void GetOrderInfo(){
-            Console.WriteLine($"ORDER:");
+            Console.WriteLine($"ORDERID: {OrderId}");
             Console.WriteLine($"    Customer Email: {Customer.Email}");
             Console.WriteLine($"    Animal: {Animal.Name}");
             Console.WriteLine($"    Price: {String.Format("{0:C}", Animal.Price)}");

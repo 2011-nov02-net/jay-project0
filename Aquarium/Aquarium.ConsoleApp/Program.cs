@@ -3,8 +3,6 @@ using Aquarium.Library;
 using Aquarium.DataModel;
 using System.Linq;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Aquarium.ConsoleApp
 {
@@ -60,7 +58,6 @@ namespace Aquarium.ConsoleApp
             Console.WriteLine("(1) Store service");
             Console.WriteLine("(2) Customer service");
             Console.WriteLine("(3) Order service");
-            // Console.WriteLine("(4) Animal service");
         }
         public static void MenuInput(string input, Library.Store location)
         {
